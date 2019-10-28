@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="328f928b-4bd1-4108-9393-ac529b996c4c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/julia.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
@@ -17,15 +16,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="362" column="51" selection-start-line="362" selection-start-column="51" selection-end-line="362" selection-end-column="51" />
+            <state relative-caret-position="248">
+              <caret line="527" column="32" lean-forward="true" selection-start-line="527" selection-start-column="32" selection-end-line="527" selection-end-column="32" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-                <element signature="e#5833#6636#0" />
-                <element signature="e#7449#8638#0" />
-                <element signature="e#8430#8783#0" />
-                <element signature="e#8846#9222#0" />
-                <element signature="e#10971#11679#1" />
               </folding>
             </state>
           </provider>
@@ -50,8 +44,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="240" />
-    <option name="y" value="130" />
+    <option name="x" value="181" />
+    <option name="y" value="-9" />
     <option name="width" value="1440" />
     <option name="height" value="780" />
   </component>
@@ -179,7 +173,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32827735" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29469123" />
+      <window_info active="true" anchor="bottom" x="1921" y="31" width="1901" height="1008" id="Run" order="2" type="WINDOWED" visible="true" weight="0.29469123" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -218,15 +212,10 @@
     <entry file="file://$PROJECT_DIR$/data/orig.png" />
     <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="362" column="51" selection-start-line="362" selection-start-column="51" selection-end-line="362" selection-end-column="51" />
+        <state relative-caret-position="248">
+          <caret line="527" column="32" lean-forward="true" selection-start-line="527" selection-start-column="32" selection-end-line="527" selection-end-column="32" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#5833#6636#0" />
-            <element signature="e#7449#8638#0" />
-            <element signature="e#8430#8783#0" />
-            <element signature="e#8846#9222#0" />
-            <element signature="e#10971#11679#1" />
           </folding>
         </state>
       </provider>
