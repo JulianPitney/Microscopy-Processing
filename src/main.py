@@ -28,14 +28,6 @@ class SpaceballSlice(object):
 
 
 
-
-
-
-
-
-
-
-
 def display_stack(stack, auto):
 
     cv2.namedWindow('stack', cv2.WINDOW_NORMAL)
@@ -49,32 +41,12 @@ def display_stack(stack, auto):
         else:
             cv2.waitKey(0)
 
-def compare_stacks(original, processed, auto):
-
-    cv2.namedWindow('original', cv2.WINDOW_NORMAL)
-    cv2.namedWindow('processed', cv2.WINDOW_NORMAL)
-
-    for slice1, slice2 in zip(original, processed):
-        cv2.imshow('original', slice1)
-        cv2.imshow('processed', slice2)
-
-        if auto:
-            cv2.waitKey(1)
-        else:
-            cv2.waitKey(0)
 
 
 def max_project(stack):
 
     stackMax = np.max(stack, axis=0)
     return stackMax
-
-def min_project(stack):
-
-    stackMin = np.min(stack, axis=0)
-    return stackMin
-
-
 
 
 def save_stack(stack):
@@ -96,26 +68,16 @@ def remove_all_pixels_below_threshold(stack, threshold):
 
     print("remove_all_pixels_below_threshold(): Completed!")
 
-def remove_all_pixels_above_threshold(stack, threshold):
 
-    print("remove_all_pixels_above_threshold(): Starting...")
 
-    for z in range(0, len(stack)):
-        ret, thresholded_slice = cv2.threshold((stack[z]), threshold, 255, cv2.THRESH_TOZERO_INV)
-        stack[z] = thresholded_slice
-
-    print("remove_all_pixels_above_threshold(): Completed!")
 
 def kernel_filter_2d(stack, kernelDims):
 
     print("kernel_filter_2d(): Starting...")
-
     kernel = np.ones(kernelDims, np.float32) / (kernelDims[0] * kernelDims[1])
 
     for z in range(0, len(stack)):
-
         stack[z] = cv2.filter2D(stack[z], -1, kernel)
-
     print("kernel_filter_2d(): Completed!")
 
 def map_actual_range_to_max_range(val):
@@ -180,21 +142,21 @@ def gen_signal_density_map_3d(stack, kernelSize_zyx):
                 xBounds[0] += kernelSize_zyx[2]
                 xBounds[1] += kernelSize_zyx[2]
                 if xPixelsRemainder != 0 and x == xBlocks - 1:
-                    # TODO: Implement boundary detection case
+                    print("Warning: gen_signal_density_map_3d() has detected overflow in the X direction! The last column in X will be skipped.")
                     break
 
             xBounds = [0, kernelSize_zyx[2]]
             yBounds[0] += kernelSize_zyx[1]
             yBounds[1] += kernelSize_zyx[1]
             if yPixelsRemainder != 0 and y == yBlocks - 1:
-                # TODO: Implement boundary detection case
+                print("Warning: gen_signal_density_map_3d() has detected overflow in the Y direction! The last row in Y will be skipped.")
                 break
 
         yBounds = [0, kernelSize_zyx[1]]
         zBounds[0] += kernelSize_zyx[0]
         zBounds[1] += kernelSize_zyx[0]
         if zPixelsRemainder != 0 and z == zBlocks - 1:
-            #TODO: Implement boundary detection case
+            print("Warning: gen_signal_density_map_3d() has detected overflow in the Z direction! The last block in Z will be skipped.")
             break
 
     print("gen_signal_density_map_3d(): Completed!")
@@ -204,12 +166,9 @@ def convert_grayscale_stack_to_color(stack):
     color_stack = np.stack((stack,)*3, axis=-1)
     return color_stack
 
-
 def color_map(stackGray, stackColor):
 
-
     for z in range(0, len(stackGray)):
-
         stackColor[z] = cv2.applyColorMap(stackGray[z], 2)
 
 
@@ -227,6 +186,9 @@ def gen_spaceball(stack, centerXYZ, radius):
     print("gen_spaceball(): Starting...")
 
 
+    zLen = len(stack)
+    yLen = len(stack[0])
+    xLen = len(stack[0][0])
     centerZ = centerXYZ[2]
     centerY = centerXYZ[1]
     centerX = centerXYZ[0]
@@ -234,6 +196,20 @@ def gen_spaceball(stack, centerXYZ, radius):
     spaceballSlices = [None] * (radius * 2)
     ind1 = radius
     ind2 = radius - 1
+
+
+    # Check if spaceball is inside bounds of scan.
+    if (centerZ + radius) > zLen or (centerZ - radius) < 0:
+        print("Warning: Requested spaceball falls off the edge of the scan in Z. Aborting!")
+        return 0
+    elif (centerY + radius) > yLen or (centerY - radius) < 0:
+        print("Warning: Requested spaceball falls off the edge of the scan in Y. Aborting!")
+        return 0
+    elif (centerX + radius) > xLen or (centerX - radius) < 0:
+        print("Warning: Requested spaceball falls off the edge of the scan in X. Aborting!")
+        return 0
+
+
 
     for z in range(centerZ, centerZ + radius):
 
@@ -307,7 +283,7 @@ def num_islands(graph, x0, x1, y0, y1, validCoords):
                 islandPixelCoords = []
                 dfs(graph, row, col, y, x, islandPixelCoords, validCoords)
 
-                if len(islandPixelCoords) > 20:
+                if len(islandPixelCoords) > 25:
                     newIsland = Island(islandPixelCoords)
                     islands.append(newIsland)
 
@@ -347,45 +323,48 @@ def dfs(graph, row, col, y, x, isLandPixelCoords, validCoords):
 def count_unique_spaceball_intersections(spaceball):
 
     print("count_unique_spaceball_intersections(): Starting...")
-
-
     numIntersections = 0
 
     for z in range(1, len(spaceball)):
 
+        # TODO: Temp for visualization
+        cv2.namedWindow('labeled', cv2.WINDOW_NORMAL)
+        cv2.namedWindow('original', cv2.WINDOW_NORMAL)
         islandsTop = spaceball[z - 1].islands
         islandsBottom = spaceball[z].islands
-
-
-        # TODO: Temp for visualization
         sliceTop = spaceball[z - 1].originalSlice
-        sliceBottom = spaceball[z].originalSlice
         boundingCoords = spaceball[z - 1].boundingCoords
-        if z == 1 or z == 199:
+        if z == 1 or z == 399:
             continue
+
 
 
         # If we're on the last slice and an island doesn't terminate in Z
         # then it will not get counted, so just add all the remaining islands
         # to the count and return.
         if z == len(spaceball) - 5:
-            print("Adding remainder: " + str(len(islandsTop)))
+
             numIntersections += len(islandsTop)
+            print(numIntersections)
+            # TODO: Temp for visualization
+            for islandTop in islandsTop:
+                for pixel in islandTop.coords:
+                    temp1[pixel[0]][pixel[1]][0] = 0
+                    temp1[pixel[0]][pixel[1]][1] = 255
+                    temp1[pixel[0]][pixel[1]][2] = 0
+            cv2.imshow('labeled', temp1[y0:y1, x0:x1])
+            cv2.imshow('original', spaceball[z - 1].originalSlice[y0:y1, x0:x1])
+            cv2.waitKey(0)
             break
-
-
-
 
         for islandTop in islandsTop:
 
-            print("Scanning next top island!")
             # TODO: Temp for visualization
-            cv2.namedWindow('overlap', cv2.WINDOW_NORMAL)
             temp1 = convert_grayscale_stack_to_color(sliceTop)
             temp1 = cv2.circle(temp1, spaceball[z - 1].circleCenter, spaceball[z - 1].circleRadius, (255, 0, 0), 2)
 
             for pixel in islandTop.coords:
-                temp1[pixel[0]][pixel[1]][2] = 255
+                temp1[pixel[0]][pixel[1]][2] = 100
             x0 = boundingCoords[0]
             y0 = boundingCoords[1]
             x1 = boundingCoords[2]
@@ -395,23 +374,28 @@ def count_unique_spaceball_intersections(spaceball):
             # If there are no islands in the slice below this one,
             # Assume we terminate all the islands in the current slice.
             if len(islandsBottom) == 0:
-                print("No islands in bottom slice, adding " + str(len(islandsTop)) + " to numIntersections!")
                 numIntersections += len(islandsTop)
+                print(numIntersections)
+
                 for pixel in islandTop.coords:
                     temp1[pixel[0]][pixel[1]][0] = 0
                     temp1[pixel[0]][pixel[1]][1] = 255
                     temp1[pixel[0]][pixel[1]][2] = 0
+
+                cv2.imshow('labeled', temp1[y0:y1, x0:x1])
+                cv2.imshow('original', spaceball[z - 1].originalSlice[y0:y1, x0:x1])
+                cv2.waitKey(0)
+
                 break
 
             for i in range(0, len(islandsBottom)):
-
-                print(str(i))
                 for pixel in islandsBottom[i].coords:
-                    temp1[pixel[0]][pixel[1]][2] = 100
+                    temp1[pixel[0]][pixel[1]][2] = 255
 
 
                 if check_if_islands_overlap(islandTop, islandsBottom[i]):
-                    cv2.imshow('overlap', temp1[y0:y1, x0:x1])
+                    cv2.imshow('labeled', temp1[y0:y1, x0:x1])
+                    cv2.imshow('original', spaceball[z - 1].originalSlice[y0:y1, x0:x1])
                     cv2.waitKey(0)
                     break
                 elif i == len(islandsBottom) - 1:
@@ -421,10 +405,12 @@ def count_unique_spaceball_intersections(spaceball):
                         temp1[pixel[0]][pixel[1]][1] = 255
                         temp1[pixel[0]][pixel[1]][2] = 0
 
-                    print("No overlap detected. Unique intersection found!")
-                    cv2.imshow('overlap', temp1[y0:y1, x0:x1])
-                    cv2.waitKey(0)
-        print("Moving to next slices!")
+                    print(numIntersections)
+                cv2.imshow('labeled', temp1[y0:y1, x0:x1])
+                cv2.imshow('original', spaceball[z - 1].originalSlice[y0:y1, x0:x1])
+                cv2.waitKey(0)
+
+
     print("count_unique_spaceball_intersections(): Completed!")
     return numIntersections
 
@@ -484,6 +470,20 @@ def check_if_islands_overlap(island1, island2):
 
 
 # Method 4:
+# This method should implement systematic random sampling of the
+# scan and perform methods 1-5 for each sample.
+# The results of each sample should be stored.
+def systematic_random_sample_GUI(stack):
+
+    cv2.namedWindow('Sampling Window', cv2.WINDOW_NORMAL)
+    maxProjection = max_project(stack)
+    cv2.imshow('Sampling Window', maxProjection)
+    cv2.waitKey(0)
+    exit()
+
+
+
+# Method 5:
 # This method should take the total number of "Counted" blobs and feed that into the spaceballs algorithm.
 def calculate_length_density(listOfIntersectionsPerSection, numSections, volumeBoxAroundSpaceball, spaceballRadius, sectionSamplingFraction):
 
@@ -500,22 +500,22 @@ def calculate_length_density(listOfIntersectionsPerSection, numSections, volumeB
     totalLengthEstimate = 2 * totalLengthEstimate * (v/a) * (1/ssf)
     return totalLengthEstimate
 
-# Method 5:
-# This method should implement systematic random sampling of the
-# scan and perform methods 1-5 for each sample.
-# The results of each sample should be stored.
-def systematic_random_spaceball_sample():
-    pass
 
 
-remove_all_pixels_below_threshold(stack, 24)
+
+
+
+
+
+
+
+remove_all_pixels_below_threshold(stack, 25)
 kernel_filter_2d(stack, (3, 3))
+#systematic_random_sample_GUI(stack)
+#totalLengthEstimate = calculate_length_density()
 spaceball = gen_spaceball(stack, (1500, 400, 200), 200)
 detect_islands_on_spaceball_slices(spaceball)
-count = count_unique_spaceball_intersections(spaceball)
-print(count)
-#totalLengthEstimate = calculate_length_density()
-exit()
+
 
 # BLOCK BELOW DISPLAYS ISLAND DETECTION VISUALLY
 cv2.namedWindow('test', cv2.WINDOW_NORMAL)
@@ -529,20 +529,27 @@ for slice in spaceball:
     currentRadius = 1500 - x0
 
     colorSlice = convert_grayscale_stack_to_color(slice.originalSlice)
-    circleOverlay = cv2.circle(colorSlice, (1300, 500), currentRadius, (255, 0, 0), 2)
+    circleOverlay = cv2.circle(colorSlice, (1500, 400), currentRadius, (255, 0, 0), 2)
 
     for island in slice.islands:
         for pixel in island.coords:
             circleOverlay[pixel[0]][pixel[1]][2] = 255
-    if num == 0 or num == 199:
+    if num == 0 or num == 399:
         num += 1
         continue
     num += 1
     cv2.imshow('test', circleOverlay[y0:y1, x0:x1])
-    cv2.waitKey(0)
-exit()
+    cv2.waitKey(0)    
 
 
+count = count_unique_spaceball_intersections(spaceball)
+
+
+
+
+
+
+"""
 #plt.hist(stack.ravel(), 256, [0, 256])
 remove_all_pixels_below_threshold(stack, 24)
 kernel_filter_2d(stack, (3, 3))
@@ -552,5 +559,6 @@ maxProjection = cv2.GaussianBlur(maxProjection, (101, 101), 0)
 maxProjectionColor = convert_grayscale_stack_to_color(maxProjection)
 maxProjectionColorMapped = cv2.applyColorMap(maxProjectionColor, 2)
 cv2.imwrite('density_map.png', maxProjectionColorMapped)
+"""
 
 
