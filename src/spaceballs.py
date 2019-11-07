@@ -23,6 +23,32 @@ class SpaceballSlice(object):
 
 
 
+def spaceball_placement_onClick_callback(event, x, y, flags, param):
+
+    global stack, spaceballRadius, colorMaxProjection, colorMaxProjectionCopy, counts
+
+    if event == cv2.EVENT_MOUSEMOVE:
+
+        colorMaxProjectionCopy = colorMaxProjection.copy()
+        cv2.circle(colorMaxProjectionCopy, (x, y), spaceballRadius, (0, 0, 255), 2)
+
+    elif event == cv2.EVENT_LBUTTONDOWN:
+
+        zCenter = int(input("Enter spaceball center depth: "))
+
+        cv2.circle(colorMaxProjection, (x, y), spaceballRadius, (100, 50, 175), 2)
+        spaceball = gen_spaceball(stack, (x, y, zCenter), spaceballRadius)
+        detect_islands_on_spaceball_slices(spaceball)
+        count = count_unique_spaceball_intersections(spaceball)
+        counts.append(count)
+
+    elif event == cv2.EVENT_MOUSEWHEEL:
+
+        if flags > 0:
+            spaceballRadius += 3
+        elif flags < 0:
+            spaceballRadius -= 3
+
 # Method 1:
 # This method generates a stack of images with accompanying bounding
 # boxes for the circle that represents the 2D portion of the spaceball
@@ -33,6 +59,7 @@ class SpaceballSlice(object):
 def gen_spaceball(stack, centerXYZ, radius):
 
     print("gen_spaceball(): Starting...")
+
 
 
     zLen = len(stack)
@@ -191,16 +218,17 @@ def count_unique_spaceball_intersections(spaceball):
         if z == len(spaceball) - 5:
 
             numIntersections += len(islandsTop)
-            print(numIntersections)
+
             # TODO: Temp for visualization
             for islandTop in islandsTop:
                 for pixel in islandTop.coords:
                     temp1[pixel[0]][pixel[1]][0] = 0
                     temp1[pixel[0]][pixel[1]][1] = 255
                     temp1[pixel[0]][pixel[1]][2] = 0
-            cv2.imshow('labeled', temp1[y0:y1, x0:x1])
-            cv2.imshow('original', spaceball[z - 1].originalSlice[y0:y1, x0:x1])
-            cv2.waitKey(0)
+            if len(islandsTop) != 0:
+                cv2.imshow('labeled', temp1[y0:y1, x0:x1])
+                cv2.imshow('original', spaceball[z - 1].originalSlice[y0:y1, x0:x1])
+                cv2.waitKey(0)
             break
 
         for islandTop in islandsTop:
@@ -221,7 +249,6 @@ def count_unique_spaceball_intersections(spaceball):
             # Assume we terminate all the islands in the current slice.
             if len(islandsBottom) == 0:
                 numIntersections += len(islandsTop)
-                print(numIntersections)
 
                 for pixel in islandTop.coords:
                     temp1[pixel[0]][pixel[1]][0] = 0
@@ -251,7 +278,6 @@ def count_unique_spaceball_intersections(spaceball):
                         temp1[pixel[0]][pixel[1]][1] = 255
                         temp1[pixel[0]][pixel[1]][2] = 0
 
-                    print(numIntersections)
                 cv2.imshow('labeled', temp1[y0:y1, x0:x1])
                 cv2.imshow('original', spaceball[z - 1].originalSlice[y0:y1, x0:x1])
                 cv2.waitKey(0)
@@ -314,17 +340,6 @@ def check_if_islands_overlap(island1, island2):
     return False
 
 
-# Method 4:
-# This method should implement systematic random sampling of the
-# scan and perform methods 1-5 for each sample.
-# The results of each sample should be stored.
-def systematic_random_sample_GUI(stack):
-
-    cv2.namedWindow('Sampling Window', cv2.WINDOW_NORMAL)
-    maxProjection = zsu.max_project(stack)
-    cv2.imshow('Sampling Window', maxProjection)
-    cv2.waitKey(0)
-    exit()
 
 
 # Method 5:
@@ -350,13 +365,38 @@ def calculate_length_density(listOfIntersectionsPerSection, numSections, volumeB
 
 
 
+
+
+
 stack = tifffile.imread("../data/d1.tif")
+spaceballRadius = 10
+counts = []
+
 zsu.remove_all_pixels_below_threshold(stack, 30)
 zsu.kernel_filter_2d(stack, (3, 3))
-spaceball = gen_spaceball(stack, (1500, 400, 200), 200)
-detect_islands_on_spaceball_slices(spaceball)
+maxProjection = zsu.max_project(stack)
+colorMaxProjection = zsu.convert_grayscale_stack_to_color(maxProjection)
+colorMaxProjectionCopy = colorMaxProjection.copy()
+cv2.namedWindow('Max Projection', cv2.WINDOW_NORMAL)
+cv2.setMouseCallback('Max Projection', spaceball_placement_onClick_callback)
+while 1:
+
+    cv2.imshow('Max Projection', colorMaxProjectionCopy)
+    k = cv2.waitKey(20) & 0xFF
+    if k == 27:
+        break
+cv2.destroyAllWindows()
+
+print(counts)
+exit()
 
 
+
+
+
+
+
+"""
 # BLOCK BELOW DISPLAYS ISLAND DETECTION VISUALLY
 cv2.namedWindow('test', cv2.WINDOW_NORMAL)
 num = 0
@@ -380,9 +420,15 @@ for slice in spaceball:
     num += 1
     cv2.imshow('test', circleOverlay[y0:y1, x0:x1])
     cv2.waitKey(0)    
+"""
 
 
-count = count_unique_spaceball_intersections(spaceball)
+
+
+
+
+
+
 
 
 

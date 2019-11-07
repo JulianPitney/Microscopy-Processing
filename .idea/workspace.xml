@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="328f928b-4bd1-4108-9393-ac529b996c4c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/densityMap.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/zstackUtils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cvUtils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/binarize.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/binarize.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/spaceballs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spaceballs.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/spaceballs.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,18 +17,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/spaceballs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+            <state relative-caret-position="507">
+              <caret line="390" column="6" lean-forward="true" selection-start-line="390" selection-start-column="6" selection-end-line="390" selection-end-column="6" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-                <element signature="e#5239#6770#0" />
-                <element signature="e#7160#8348#0" />
-                <element signature="e#8408#8871#0" />
-                <element signature="e#8942#9516#0" />
-                <element signature="e#9619#13184#0" />
-                <element signature="e#13240#14114#0" />
-                <element signature="e#14336#14507#0" />
-                <element signature="e#14777#15146#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cvUtils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="63">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -39,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/binarize.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1050">
-              <caret line="50" column="4" lean-forward="true" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
+            <state relative-caret-position="987">
+              <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -51,12 +53,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/densityMap.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="98" column="18" lean-forward="true" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
+            <state relative-caret-position="1953">
+              <caret line="98" column="18" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-                <element signature="e#1033#1323#0" />
-                <element signature="e#1386#3728#0" />
               </folding>
             </state>
           </provider>
@@ -65,8 +65,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/zstackUtils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="793">
-              <caret line="68" column="9" selection-start-line="68" selection-start-column="4" selection-end-line="68" selection-end-column="9" />
+            <state relative-caret-position="1113">
+              <caret line="54" column="31" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -104,11 +104,14 @@
         <option value="$PROJECT_DIR$/src/binarize.py" />
         <option value="$PROJECT_DIR$/src/densityMap.py" />
         <option value="$PROJECT_DIR$/src/main.py" />
+        <option value="$PROJECT_DIR$/src/cvUtils.py" />
+        <option value="$PROJECT_DIR$/src/spaceballs.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
+    <option name="x" value="431" />
+    <option name="y" value="466" />
     <option name="width" value="975" />
     <option name="height" value="1050" />
   </component>
@@ -138,7 +141,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../3D-Kinematics" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -159,7 +162,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.binarize">
+  <component name="RunManager" selected="Python.spaceballs">
     <configuration name="binarize" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Microscopy-Processing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -173,6 +176,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/binarize.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="cvUtils" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Microscopy-Processing" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/cvUtils.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -223,8 +247,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="spaceballs" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Microscopy-Processing" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/spaceballs.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.spaceballs" />
+        <item itemvalue="Python.cvUtils" />
         <item itemvalue="Python.binarize" />
         <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.main" />
@@ -248,12 +295,12 @@
     <frame x="-7" y="-7" width="2062" height="1126" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24913666" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1978293" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32827735" />
-      <window_info anchor="bottom" x="852" y="272" width="958" height="1008" id="Run" order="2" type="WINDOWED" weight="0.29469123" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32730925" />
+      <window_info active="true" anchor="bottom" x="-1920" y="381" width="1920" height="1017" id="Run" maximized="true" order="2" type="WINDOWED" visible="true" weight="0.29469123" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -293,10 +340,30 @@
     <entry file="file://$PROJECT_DIR$/src/density_map.png" />
     <entry file="file://$PROJECT_DIR$/src/1.png" />
     <entry file="file://$PROJECT_DIR$/src/362.png" />
+    <entry file="file://$PROJECT_DIR$/src/spaceballs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="390" column="6" lean-forward="true" selection-start-line="390" selection-start-column="6" selection-end-line="390" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cvUtils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/binarize.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1050">
-          <caret line="50" column="4" lean-forward="true" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
+        <state relative-caret-position="987">
+          <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
@@ -305,40 +372,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/densityMap.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="98" column="18" lean-forward="true" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
+        <state relative-caret-position="1953">
+          <caret line="98" column="18" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#1033#1323#0" />
-            <element signature="e#1386#3728#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/zstackUtils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="793">
-          <caret line="68" column="9" selection-start-line="68" selection-start-column="4" selection-end-line="68" selection-end-column="9" />
+        <state relative-caret-position="1113">
+          <caret line="54" column="31" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/spaceballs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#5239#6770#0" />
-            <element signature="e#7160#8348#0" />
-            <element signature="e#8408#8871#0" />
-            <element signature="e#8942#9516#0" />
-            <element signature="e#9619#13184#0" />
-            <element signature="e#13240#14114#0" />
-            <element signature="e#14336#14507#0" />
-            <element signature="e#14777#15146#0" />
           </folding>
         </state>
       </provider>
