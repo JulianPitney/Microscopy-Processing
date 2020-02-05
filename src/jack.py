@@ -2,33 +2,52 @@ import tifffile
 import zstackUtils as zsu
 import numpy as np
 
-stackPath = "..\\data\\filtered_highpass.tif"
+stackPath = "..\\data\\cropped.tif"
 stack = tifffile.imread(stackPath)
 
-NUM_FRAMES_THRESHOLD = 15
-INTENSITY_THRESHOLD = 90
+# if pixel between max and min intensity
+# for num slices
+# if pixel falls outside range remove pixel block
+# # increment z block and repeat
 
-for z in range(0, len(stack) - NUM_FRAMES_THRESHOLD):
+#stack = np.arange(80).reshape(5, 4, 4)
+#print(stack)
+BLOCK_SIZE_Z = 5
+INTENSITY_THRESHOLD_MAX = 140
+INTENSITY_THRESHOLD_MIN = 80
 
-        print("SLICE" + str(z))
-        subMatrix = np.where(stack[z] < INTENSITY_THRESHOLD)
+blockIndeces = []
 
-        pixel = 0
-        total = len(subMatrix[0])
+for z in range(0, len(stack), BLOCK_SIZE_Z):
 
-        for pixel in range(0, len(subMatrix[0])):
-            X = subMatrix[0][pixel]
-            Y = subMatrix[1][pixel]
-            pixel += 1
-            reject = True
-            for i in range(z + 1, z + NUM_FRAMES_THRESHOLD + 1):
-                if stack[i][X][Y] > INTENSITY_THRESHOLD:
-                    reject = False
-                    break
+        print(z)
+        block = []
 
-            if reject:
-                stack[z][X][Y] = 0
+        for i in range(z, z + BLOCK_SIZE_Z):
+
+                if i == len(stack):
+                        continue
+
+                subMatrix = np.where((stack[i] <= INTENSITY_THRESHOLD_MAX) & (stack[i] >= INTENSITY_THRESHOLD_MIN))
+                block.append(subMatrix)
+
+        blockIndeces.append(block)
+
+for blockIndex in range(0, len(blockIndeces)):
+
+        sliceCoords = []
+        for slice in blockIndeces[blockIndex]:
+                sliceCoords.append(list(zip(*slice)))
+
+
+        rejectedCoordinates = []
+        for coord in sliceCoords[0]:
+                if coord not in sliceCoords[1:len(sliceCoords)]:
+                        rejectedCoordinates.append(coord)
+
+        
 
 
 
-zsu.save_stack(stack)
+maxProjection = zsu.max_project(stack)
+zsu.display_stack(maxProjection, 1)
