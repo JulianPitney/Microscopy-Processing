@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 import zstackUtils as zsu
 
 
+
 def map_actual_range_to_max_range(val):
 
     leftMin = 0
@@ -48,7 +49,6 @@ def gen_signal_density_map_3d(stack, kernelSize_zyx):
 
 
     for z in range(0, zBlocks):
-
 
         for y in range(0, yBlocks):
 
