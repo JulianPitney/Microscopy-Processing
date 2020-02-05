@@ -20,7 +20,6 @@ blockIndeces = []
 
 for z in range(0, len(stack), BLOCK_SIZE_Z):
 
-        print(z)
         block = []
 
         for i in range(z, z + BLOCK_SIZE_Z):
@@ -45,9 +44,12 @@ for blockIndex in range(0, len(blockIndeces)):
                 if coord not in sliceCoords[1:len(sliceCoords)]:
                         rejectedCoordinates.append(coord)
 
-        
+
+        for coord in rejectedCoordinates:
+                for i in range(0, len(blockIndeces[blockIndex])):
+
+                        stack[(blockIndex * BLOCK_SIZE_Z) - 1 + i][coord[0]][coord[1]] = 0
 
 
 
-maxProjection = zsu.max_project(stack)
-zsu.display_stack(maxProjection, 1)
+zsu.save_stack(stack)
