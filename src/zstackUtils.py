@@ -17,6 +17,8 @@ def display_stack(stack, auto):
 
 
 
+
+
 def max_project(stack):
 
     stackMax = np.max(stack, axis=0)
@@ -26,7 +28,7 @@ def max_project(stack):
 def save_stack(stack):
 
     for z in range(0, len(stack)):
-        cv2.imwrite(str(z) + ".png", stack[z])
+        cv2.imwrite("../data/" + str(z) + ".png", stack[z])
 
 
 
