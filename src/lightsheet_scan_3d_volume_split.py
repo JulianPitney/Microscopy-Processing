@@ -5,7 +5,9 @@ import zstackUtils as zsu
 
 
 
-stackPath = "../data/cubicR_Feb20_1laser_5umstep.tif"
+dataDir = "../data/"
+stackPath = dataDir + "cubicR_Feb20_1laser_5umstep.tif"
+
 stack = tifffile.imread(stackPath)
 
 class Cube(object):
@@ -78,7 +80,12 @@ def slice_into_cubes(stack, zCube, yCube, xCube):
 
 def save_cubes_to_tif(cubes):
 
-        tifffile.imwrite('../data/test.tif', cubes[400].data)
+        for cube in cubes:
+
+            fileName = "cube_" + str(cube.original_z_range[0]) + ":" + str(cube.original_z_range[1])
+            fileName += "_" + str(cube.original_y_range[0]) + ":" + str(cube.original_y_range[1])
+            fileName += "_" + str(cube.original_x_range[0]) + ":" + str(cube.original_x_range[1]) + ".tif"
+            tifffile.imwrite(dataDir + fileName, cube.data)
 
 
 cubes = slice_into_cubes(stack, 70, 256, 272)
