@@ -1,1 +1,6 @@
 /data/
+/cubes_excel/
+/cubes/
+/cubes_results/
+*.pyc
+__pycache__
