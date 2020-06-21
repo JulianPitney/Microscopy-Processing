@@ -5,12 +5,14 @@ import zstackUtils as zsu
 import xlrd
 from os import listdir
 from os.path import isfile, join
+from scipy.interpolate import interp1d
+
+DEBUG = False
 
 dataDir = "../data/"
 outputDir = "../cubes/"
 aiviaExcelResultsDir = "../cubes_excel/"
 stackPath = dataDir + "cubicR_Feb20_1laser_5umstep.tif"
-
 stack = tifffile.imread(stackPath)
 
 class Cube(object):
@@ -78,9 +80,7 @@ def slice_into_cubes(stack, zCube, yCube, xCube):
                 yRange = (y, y+yCube)
                 xRange = (x, x+xCube)
                 data = stack[zRange[0]:zRange[1], yRange[0]:yRange[1], xRange[0]:xRange[1]]
-                print(data.shape)
-                exit(0)
-                tempCube = Cube(data, zRange, yRange, xRange)
+                tempCube = Cube(data, zRange, yRange, xRange, -1)
                 cubes.append(tempCube)
 
     return cubes
@@ -89,10 +89,22 @@ def save_cubes_to_tif(cubes):
 
         for cube in cubes:
 
-            fileName = "cube_" + str(cube.original_z_range[0]) + ":" + str(cube.original_z_range[1])
-            fileName += "_" + str(cube.original_y_range[0]) + ":" + str(cube.original_y_range[1])
-            fileName += "_" + str(cube.original_x_range[0]) + ":" + str(cube.original_x_range[1]) + ".tif"
+            fileName = "cube_" + str(cube.original_z_range[0]) + "-" + str(cube.original_z_range[1])
+            fileName += "_" + str(cube.original_y_range[0]) + "-" + str(cube.original_y_range[1])
+            fileName += "_" + str(cube.original_x_range[0]) + "-" + str(cube.original_x_range[1]) + ".tif"
             tifffile.imwrite(outputDir + fileName, cube.data)
+
+
+def parse_coords_from_filename(filename):
+
+    coords = []
+    filename = filename[5:-18]
+    temp = filename.split('_')
+    for item in temp:
+        coord = item.split('-')
+        coords.append((int(coord[0]), int(coord[1])))
+
+    return coords
 
 
 def load_aivia_excel_results_into_cubes(cube_results_dir):
@@ -105,17 +117,19 @@ def load_aivia_excel_results_into_cubes(cube_results_dir):
         try:
             wb = xlrd.open_workbook(cube_results_dir + file)
         except PermissionError:
-            print("Permission was denied for opening: " + file)
-            print("Suggestion: Remove this file from directory or change it's permissions and try again.")
+            if DEBUG:
+                print("Permission was denied for opening: " + file)
+                print("Suggestion: Remove this file from directory or change it's permissions and try again.")
             exit(0)
 
         try:
             sheet = wb.sheet_by_index(4)
         except IndexError:
-            print("Dendrite Set.Total Length (px) page not found. This generally means Aivia's detection didn't find anything.")
-            print("Skipping file: " + file)
-            # TODO: If we skip the file because no dendrites were found, we still need to create a cube object for those
-            # coordinates and set the totalPathLength to 0.
+            if DEBUG:
+                print("Dendrite Set.Total Length (px) page not found in file: " + file + ". This generally means Aivia's detection didn't find anything.")
+            coords = parse_coords_from_filename(file)
+            cube = Cube(None, coords[0], coords[1], coords[2], 0)
+            cubes.append(cube)
         else:
 
             rows = []
@@ -132,14 +146,24 @@ def load_aivia_excel_results_into_cubes(cube_results_dir):
             for row in rows:
                 totalPathLength += sheet.cell_value(row, 1)
 
-            # TODO: Parse XYZ ranges from file names and put them into cube objects.
-            cube = Cube(None, -1, -1, -1, totalPathLength)
+            coords = parse_coords_from_filename(file)
+            cube = Cube(None, coords[0], coords[1], coords[2], totalPathLength)
             cubes.append(cube)
 
     return cubes
 
-cubes = load_aivia_excel_results_into_cubes(aiviaExcelResultsDir)
-for cube in cubes:
-    print(cube.totalPathLength)
+
+# Do this first
 #cubes = slice_into_cubes(stack, 70, 256, 272)
 #save_cubes_to_tif(cubes)
+
+# Then run the cubes through aivia
+
+# Then run aivia's results through this
+cubes = load_aivia_excel_results_into_cubes(aiviaExcelResultsDir)
+for cube in cubes:
+    stack[cube.original_y_range[0]:cube.original_z_range[1], cube.original_y_range[0]:cube.original_y_range[1], cube.original_x_range[0]:cube.original_x_range[1]] = cube.totalPathLength
+
+max = zsu.max_project(stack)
+cv2.imshow('test', max)
+cv2.waitKey(0)
