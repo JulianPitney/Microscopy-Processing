@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="328f928b-4bd1-4108-9393-ac529b996c4c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/filter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Microscopy-Processing.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Microscopy-Processing.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jack.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zstackUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/zstackUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,25 +15,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/zstackUtils.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
+            <state relative-caret-position="211">
+              <caret line="176" lean-forward="true" selection-start-line="176" selection-end-line="176" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/filter.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="23" column="15" lean-forward="true" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -75,12 +63,13 @@
         <option value="$PROJECT_DIR$/src/filter.cmd" />
         <option value="$PROJECT_DIR$/src/zstackUtils.py" />
         <option value="$PROJECT_DIR$/src/filter.py" />
+        <option value="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="188" />
-    <option name="y" value="101" />
+    <option name="y" value="100" />
     <option name="width" value="1440" />
     <option name="height" value="780" />
   </component>
@@ -136,7 +125,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.jack">
+  <component name="RunManager" selected="Python.lightsheet_scan_3d_volume_split">
     <configuration name="binarize" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Microscopy-Processing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -200,7 +189,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="lightsheet_scan_3d_volume_split" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Microscopy-Processing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -212,7 +201,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Projects\Microscopy-Processing\src\spaceballs.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -244,11 +233,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.lightsheet_scan_3d_volume_split" />
         <item itemvalue="Python.jack" />
         <item itemvalue="Python.spaceballs" />
         <item itemvalue="Python.cvUtils" />
         <item itemvalue="Python.binarize" />
-        <item itemvalue="Python.main (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -266,15 +255,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="2062" height="1126" extended-state="6" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1381" height="885" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2101628" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21009651" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32730925" />
-      <window_info anchor="bottom" x="465" y="418" width="944" height="484" id="Run" order="2" weight="0.31709957" />
+      <window_info anchor="bottom" x="465" y="418" width="944" height="484" id="Run" order="2" weight="0.3148148" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -354,10 +342,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/filter.cmd">
+    <entry file="file://$PROJECT_DIR$/src/filter.cmd" />
+    <entry file="file://$PROJECT_DIR$/src/filter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="39" selection-start-column="39" selection-end-column="39" />
+        <state relative-caret-position="-860">
+          <caret line="23" column="15" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -371,12 +363,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/filter.py">
+    <entry file="file://$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="23" column="15" lean-forward="true" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
+        <state relative-caret-position="211">
+          <caret line="176" lean-forward="true" selection-start-line="176" selection-end-line="176" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>

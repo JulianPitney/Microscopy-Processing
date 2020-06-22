@@ -153,6 +153,30 @@ def load_aivia_excel_results_into_cubes(cube_results_dir):
     return cubes
 
 
+def map_path_lengths_to_range(cubes):
+
+    pathLengths = []
+    for cube in cubes:
+        pathLengths.append(cube.totalPathLength)
+
+    minPathLength = min(pathLengths)
+    maxPathLength = max(pathLengths)
+    m = interp1d([minPathLength, maxPathLength], [0, 255])
+    pathLengths = m(pathLengths)
+
+    for i in range(0, len(cubes)):
+
+        cubes[i].totalPathLength = pathLengths[i]
+
+    return cubes
+
+
+
+
+
+
+
+
 # Do this first
 #cubes = slice_into_cubes(stack, 70, 256, 272)
 #save_cubes_to_tif(cubes)
@@ -161,9 +185,13 @@ def load_aivia_excel_results_into_cubes(cube_results_dir):
 
 # Then run aivia's results through this
 cubes = load_aivia_excel_results_into_cubes(aiviaExcelResultsDir)
+map_path_lengths_to_range(cubes)
 for cube in cubes:
-    stack[cube.original_y_range[0]:cube.original_z_range[1], cube.original_y_range[0]:cube.original_y_range[1], cube.original_x_range[0]:cube.original_x_range[1]] = cube.totalPathLength
+
+    stack[cube.original_z_range[0]:cube.original_z_range[1], \
+    cube.original_y_range[0]:cube.original_y_range[1], \
+    cube.original_x_range[0]:cube.original_x_range[1]] = cube.totalPathLength
+
 
 max = zsu.max_project(stack)
-cv2.imshow('test', max)
-cv2.waitKey(0)
+cv2.imwrite('test.png', max)
