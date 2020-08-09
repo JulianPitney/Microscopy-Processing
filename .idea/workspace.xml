@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="328f928b-4bd1-4108-9393-ac529b996c4c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Microscopy-Processing.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Microscopy-Processing.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" afterDir="false" />
     </list>
@@ -18,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="176" lean-forward="true" selection-start-line="176" selection-end-line="176" />
+            <state relative-caret-position="316">
+              <caret line="191" column="39" lean-forward="true" selection-start-line="191" selection-start-column="39" selection-end-line="191" selection-end-column="39" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -63,6 +61,7 @@
         <option value="$PROJECT_DIR$/src/filter.cmd" />
         <option value="$PROJECT_DIR$/src/zstackUtils.py" />
         <option value="$PROJECT_DIR$/src/filter.py" />
+        <option value="$PROJECT_DIR$/src/3DColorMap.py" />
         <option value="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" />
       </list>
     </option>
@@ -90,6 +89,11 @@
               <item name="Microscopy-Processing" type="b2602c69:ProjectViewProjectNode" />
               <item name="Microscopy-Processing" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Microscopy-Processing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Microscopy-Processing" type="462c0819:PsiDirectoryNode" />
+              <item name="density_maps" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Microscopy-Processing" type="b2602c69:ProjectViewProjectNode" />
@@ -256,8 +260,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1381" height="885" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21009651" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21009651" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -363,10 +368,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/3DColorMap.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/density_maps/MAX_cubicR_Feb20_1laser_5umstep.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="176" lean-forward="true" selection-start-line="176" selection-end-line="176" />
+        <state relative-caret-position="316">
+          <caret line="191" column="39" lean-forward="true" selection-start-line="191" selection-start-column="39" selection-end-line="191" selection-end-column="39" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>

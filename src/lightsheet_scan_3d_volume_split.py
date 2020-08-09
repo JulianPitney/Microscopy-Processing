@@ -58,6 +58,12 @@ def suggest_even_multiples(stack):
     print()
 
 
+def crop3D():
+
+    max = zsu.max_project(stack)
+    cv2.imshow("crop3D Utility", max)
+    cv2.waitKey(0)
+
 def slice_into_cubes(stack, zCube, yCube, xCube):
 
     if (stack.shape[0] % zCube != 0) or zCube == 0:
@@ -174,7 +180,7 @@ def map_path_lengths_to_range(cubes):
 
 
 
-
+crop3D()
 
 
 # Do this first
@@ -184,14 +190,14 @@ def map_path_lengths_to_range(cubes):
 # Then run the cubes through aivia
 
 # Then run aivia's results through this
-cubes = load_aivia_excel_results_into_cubes(aiviaExcelResultsDir)
-map_path_lengths_to_range(cubes)
-for cube in cubes:
+#cubes = load_aivia_excel_results_into_cubes(aiviaExcelResultsDir)
+#map_path_lengths_to_range(cubes)
+#for cube in cubes:
 
-    stack[cube.original_z_range[0]:cube.original_z_range[1], \
-    cube.original_y_range[0]:cube.original_y_range[1], \
-    cube.original_x_range[0]:cube.original_x_range[1]] = cube.totalPathLength
+#    stack[cube.original_z_range[0]:cube.original_z_range[1], \
+#    cube.original_y_range[0]:cube.original_y_range[1], \
+#    cube.original_x_range[0]:cube.original_x_range[1]] = cube.totalPathLength
 
 
-max = zsu.max_project(stack)
-cv2.imwrite('test.png', max)
+#max = zsu.max_project(stack)
+#cv2.imwrite('test.png', max)
