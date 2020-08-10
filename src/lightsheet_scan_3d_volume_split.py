@@ -60,9 +60,65 @@ def suggest_even_multiples(stack):
 
 def crop3D():
 
-    max = zsu.max_project(stack)
-    cv2.imshow("crop3D Utility", max)
+    cv2.namedWindow("3DCrop Utility", cv2.WINDOW_KEEPRATIO)
+    cv2.resizeWindow("3DCrop Utility", (500, 700))
+    #max = zsu.max_project(stack)
+    #cv2.imwrite('temp.jpg', max)
+    max = cv2.imread('small_test.jpg')
+
+    print("Scan Dimensions: ")
+    print("yDim=" + str(max.shape[0]))
+    print("xDim=" + str(max.shape[1]))
+    print("zDim=" + str(max.shape[2]))
+
+    notFinished = True
+
+    while notFinished:
+
+        copyForPainting = max.copy()
+        croppedCorners = []
+
+        for i in range(0, 4):
+            cv2.imshow("3DCrop Utility", max)
+            cv2.waitKey(1)
+            x = int(input("Input corner#" + str(i) + " X Coord: "))
+            y = int(input("Input corner#" + str(i) + " Y Coord: "))
+            croppedCorners.append((x, y))
+
+        cv2.line(copyForPainting, croppedCorners[0], croppedCorners[1], 200, 3)
+        cv2.line(copyForPainting, croppedCorners[1], croppedCorners[2], 200, 3)
+        cv2.line(copyForPainting, croppedCorners[2], croppedCorners[3], 200, 3)
+        cv2.line(copyForPainting, croppedCorners[3], croppedCorners[0], 200, 3)
+
+
+
+        cv2.imshow("3DCrop Utility", copyForPainting)
+        cv2.waitKey(1)
+        menuOption = input("Are the bounding boxes correct? [y/n]: ")
+        if menuOption == 'y':
+            notFinished = False
+        elif menuOption == 'n':
+            continue
+
+
+
+def cropZ():
+
+    cv2.namedWindow("3DCrop Utility X PROJ", cv2.WINDOW_KEEPRATIO)
+    cv2.resizeWindow("3DCrop Utility X PROJ", (500, 700))
+    max = zsu.max_project_x(stack)
+    cv2.imwrite('temp.jpg', max)
+    max = cv2.imread('small_test.jpg')
+
+    print("Scan Dimensions: ")
+    print("yDim=" + str(max.shape[0]))
+    print("xDim=" + str(max.shape[1]))
+    print("zDim=" + str(max.shape[2]))
+
+    cv2.imshow("3DCrop Utility X PROJ")
     cv2.waitKey(0)
+
+
 
 def slice_into_cubes(stack, zCube, yCube, xCube):
 
@@ -180,8 +236,8 @@ def map_path_lengths_to_range(cubes):
 
 
 
-crop3D()
-
+#crop3D()
+cropZ()
 
 # Do this first
 #cubes = slice_into_cubes(stack, 70, 256, 272)
