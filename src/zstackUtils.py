@@ -24,7 +24,7 @@ def max_project(stack):
     stackMax = np.max(stack, axis=0)
     return stackMax
 
-def max_project_x(stack)
+def max_project_x(stack):
 
     stackMax = np.max(stack, axis=2)
     return stackMax

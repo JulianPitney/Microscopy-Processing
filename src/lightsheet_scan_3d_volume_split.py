@@ -12,7 +12,7 @@ DEBUG = False
 dataDir = "../data/"
 outputDir = "../cubes/"
 aiviaExcelResultsDir = "../cubes_excel/"
-stackPath = dataDir + "cubicR_Feb20_1laser_5umstep.tif"
+stackPath = dataDir + "mouse12_july30_1laser_2x3_stitched.tif"
 stack = tifffile.imread(stackPath)
 
 class Cube(object):
@@ -62,14 +62,14 @@ def crop3D():
 
     cv2.namedWindow("3DCrop Utility", cv2.WINDOW_KEEPRATIO)
     cv2.resizeWindow("3DCrop Utility", (500, 700))
-    #max = zsu.max_project(stack)
-    #cv2.imwrite('temp.jpg', max)
-    max = cv2.imread('small_test.jpg')
+    max = zsu.max_project(stack)
+    cv2.imwrite('temp.jpg', max)
+    max = cv2.imread('temp.jpg')
 
     print("Scan Dimensions: ")
-    print("yDim=" + str(max.shape[0]))
-    print("xDim=" + str(max.shape[1]))
-    print("zDim=" + str(max.shape[2]))
+    print("zDim=" + str(stack.shape[0]))
+    print("yDim=" + str(stack.shape[1]))
+    print("xDim=" + str(stack.shape[2]))
 
     notFinished = True
 
@@ -101,6 +101,12 @@ def crop3D():
             continue
 
 
+    z_cropCoords = cropZ()
+
+
+    croppedStack = stack[z_cropCoords[0]:z_cropCoords[1], croppedCorners[0][1]:croppedCorners[2][1], croppedCorners[0][0]:croppedCorners[2][0]]
+    return croppedStack
+
 
 def cropZ():
 
@@ -108,17 +114,35 @@ def cropZ():
     cv2.resizeWindow("3DCrop Utility X PROJ", (500, 700))
     max = zsu.max_project_x(stack)
     cv2.imwrite('temp.jpg', max)
-    max = cv2.imread('small_test.jpg')
+    max = cv2.imread('temp.jpg')
 
     print("Scan Dimensions: ")
-    print("yDim=" + str(max.shape[0]))
-    print("xDim=" + str(max.shape[1]))
-    print("zDim=" + str(max.shape[2]))
+    print("zDim=" + str(stack.shape[0]))
+    print("yDim=" + str(stack.shape[1]))
+    print("xDim=" + str(stack.shape[2]))
 
-    cv2.imshow("3DCrop Utility X PROJ")
-    cv2.waitKey(0)
+    cv2.imshow("3DCrop Utility X PROJ", max)
+    cv2.waitKey(1)
+
+    notFinished = True
+
+    while notFinished:
+
+        copyForPainting = max.copy()
+        z0 = int(input("Input z0 crop coord: "))
+        z1 = int(input("Input z1 crop coord: "))
+        cv2.line(copyForPainting, (0, z0), (max.shape[1], z0), 200, 4)
+        cv2.line(copyForPainting, (0, z1), (max.shape[1], z1), 200, 4)
+        cv2.imshow("3DCrop Utility X PROJ", copyForPainting)
+        cv2.waitKey(1)
+        menuOption = input("Are the Z crop lines correct? [y/n]: ")
+        if menuOption == 'y':
+            notFinished = False
+        elif menuOption == 'n':
+            continue
 
 
+    return (z0, z1)
 
 def slice_into_cubes(stack, zCube, yCube, xCube):
 
@@ -236,8 +260,16 @@ def map_path_lengths_to_range(cubes):
 
 
 
-#crop3D()
-cropZ()
+cropped = crop3D()
+max = zsu.max_project(cropped)
+cv2.imwrite("test.jpg", max)
+max = cv2.imread("test.jpg")
+print("Scan Dimensions: ")
+print("zDim=" + str(cropped.shape[0]))
+print("yDim=" + str(cropped.shape[1]))
+print("xDim=" + str(cropped.shape[2]))
+cv2.imshow("test", max)
+cv2.waitKey(0)
 
 # Do this first
 #cubes = slice_into_cubes(stack, 70, 256, 272)
