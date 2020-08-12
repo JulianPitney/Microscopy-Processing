@@ -12,6 +12,22 @@ from scipy.interpolate import interp1d
 
 DEBUG = False
 
+def save_and_reload_maxproj(stack):
+
+    max = zsu.max_project(stack)
+    cv2.imwrite("temp.jpg", max)
+    max = cv2.imread("temp.jpg")
+    remove('temp.jpg')
+    return max
+
+def save_and_reload_maxproj_x(stack):
+
+    max = zsu.max_project_x(stack)
+    cv2.imwrite("temp.jpg", max)
+    max = cv2.imread("temp.jpg")
+    remove('temp.jpg')
+    return max
+
 def gen_stack_dims_dict(stack):
 
     return dict({'z': stack.shape[0], 'y': stack.shape[1], 'x': stack.shape[2]})
@@ -24,21 +40,33 @@ def print_scan_dims(stackDimsDict):
     print("xDim=" + str(stackDimsDict['x']))
 
 
+
 dataDir = "../data/"
 outputDir = "../cubes/"
 aiviaExcelResultsDir = "../cubes_excel/"
 stackPath = dataDir + "cubicR_Feb20_1laser_5umstep.tif"
 stack = tifffile.imread(stackPath)
+
+zProj = save_and_reload_maxproj(stack)
+xProj = save_and_reload_maxproj_x(stack)
+zProjClone = zProj.copy()
+xProjClone = xProj.copy()
+
+
 stackDims = gen_stack_dims_dict(stack)
 stackAspectRatio = stackDims['y'] / stackDims['x']
+xProjDims = dict({'x': xProj.shape[0], 'y': xProj.shape[1]})
+xProjAspectRatio = xProjDims['y'] / xProjDims['x']
 
 # Cropping config
 CROP_WINDOW_NAME_XY = "3D Crop Utility XY"
 CROP_WINDOW_NAME_Z = "3D Crop Utility Z"
-DISPLAY_WIDTH = 3440
-DISPLAY_HEIGHT = 1440
-CROP_WINDOW_WIDTH = int(DISPLAY_HEIGHT - 200 / stackAspectRatio)
-CROP_WINDOW_HEIGHT = DISPLAY_HEIGHT - 200
+DISPLAY_WIDTH = config.DISPLAY_WIDTH
+DISPLAY_HEIGHT = config.DISPLAY_HEIGHT
+CROP_WINDOW_WIDTH_XY = int(DISPLAY_HEIGHT - 100 * stackAspectRatio)
+CROP_WINDOW_HEIGHT_XY = DISPLAY_HEIGHT - 100
+CROP_WINDOW_WIDTH_Z = DISPLAY_WIDTH - 100
+CROP_WINDOW_HEIGHT_Z = int(DISPLAY_WIDTH - 100 / xProjAspectRatio)
 # Cropping globals for cv2 mouse callbacks
 refPt = [(0, 0), (0, 0)]
 z0 = 0
@@ -60,21 +88,6 @@ class Cube(object):
 
         self.totalPathLength = totalPathLength
 
-def save_and_reload_maxproj(stack):
-
-    max = zsu.max_project(stack)
-    cv2.imwrite("temp.jpg", max)
-    max = cv2.imread("temp.jpg")
-    remove('temp.jpg')
-    return max
-
-def save_and_reload_maxproj_x(stack):
-
-    max = zsu.max_project_x(stack)
-    cv2.imwrite("temp.jpg", max)
-    max = cv2.imread("temp.jpg")
-    remove('temp.jpg')
-    return max
 
 def suggest_even_multiples(stack):
     z = stack.shape[0]
@@ -196,16 +209,16 @@ def paint_cropping_overlays(zProj, xProj, colors):
 
 def crop3D():
 
-    zProj = save_and_reload_maxproj(stack)
-    xProj = save_and_reload_maxproj_x(stack)
-    zProjClone = zProj.copy()
-    xProjClone = xProj.copy()
+    global zProj, xProj
 
     cv2.namedWindow(CROP_WINDOW_NAME_XY, cv2.WINDOW_NORMAL)
     cv2.namedWindow(CROP_WINDOW_NAME_Z, cv2.WINDOW_NORMAL)
+    cv2.resizeWindow(CROP_WINDOW_NAME_XY, CROP_WINDOW_WIDTH_XY, CROP_WINDOW_HEIGHT_XY)
+    cv2.resizeWindow(CROP_WINDOW_NAME_Z, CROP_WINDOW_WIDTH_Z, CROP_WINDOW_HEIGHT_Z)
+
 
     cv2.moveWindow(CROP_WINDOW_NAME_XY, 0, 0)
-    cv2.moveWindow(CROP_WINDOW_NAME_Z, CROP_WINDOW_WIDTH, 0)
+    cv2.moveWindow(CROP_WINDOW_NAME_Z, CROP_WINDOW_WIDTH_XY, 0)
 
     cv2.setMouseCallback(CROP_WINDOW_NAME_XY, click_and_crop)
     cv2.setMouseCallback(CROP_WINDOW_NAME_Z, click_and_z_crop)
