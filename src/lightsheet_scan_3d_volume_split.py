@@ -41,12 +41,9 @@ def print_scan_dims(stackDimsDict):
 
 
 
-dataDir = "../data/"
-outputDir = "../cubes/"
-aiviaExcelResultsDir = "../cubes_excel/"
-stackPath = dataDir + "cubicR_Feb20_1laser_5umstep.tif"
-stack = tifffile.imread(stackPath)
 
+
+stack = tifffile.imread(config.STACK_FULL_PATH)
 zProj = save_and_reload_maxproj(stack)
 xProj = save_and_reload_maxproj_x(stack)
 zProjClone = zProj.copy()
@@ -90,6 +87,7 @@ class Cube(object):
 
 
 def suggest_even_multiples(stack):
+
     z = stack.shape[0]
     y = stack.shape[1]
     x = stack.shape[2]
@@ -126,7 +124,8 @@ def calc_z_crop_snap_value(x):
     return int(math.ceil(x / config.Z_CROP_SNAP_INCREMENT)) * int(config.Z_CROP_SNAP_INCREMENT)
 
 def click_and_crop(event, x, y, flags, param):
-    global refPt, XY_CROPPING_WINDOW_ACTIVE, XY_CROPPING_WINDOW_LMB_DOWN
+
+    global refPt, XY_CROPPING_WINDOW_ACTIVE, XY_CROPPING_WINDOW_LMB_DOWN, stackDims
 
     if event == cv2.EVENT_LBUTTONDOWN:
         refPt[0] = refPt[1] = (calc_xy_crop_snap_value(x), calc_xy_crop_snap_value(y))
@@ -134,21 +133,42 @@ def click_and_crop(event, x, y, flags, param):
         XY_CROPPING_WINDOW_LMB_DOWN = True
 
     if event == cv2.EVENT_MOUSEMOVE and XY_CROPPING_WINDOW_LMB_DOWN:
-        refPt[1] = (calc_xy_crop_snap_value(x), calc_xy_crop_snap_value(y))
+
+        # TODO detect if cropping has gone outside bounds of scan
+        x = calc_xy_crop_snap_value(x)
+        y = calc_xy_crop_snap_value(y)
+
+        if x > stackDims['x'] or y > stackDims['y']:
+            pass
+        else:
+            refPt[1] = (x, y)
 
     if event == cv2.EVENT_LBUTTONUP and XY_CROPPING_WINDOW_LMB_DOWN:
         XY_CROPPING_WINDOW_LMB_DOWN = False
 
 def click_and_z_crop(event, x, y, flags, param):
-    global z0, z1, Z_CROPPING_WINDOW_ACTIVE_RIGHT, Z_CROPPING_WINDOW_ACTIVE_LEFT
+
+    global z0, z1, Z_CROPPING_WINDOW_ACTIVE_RIGHT, Z_CROPPING_WINDOW_ACTIVE_LEFT, xProjDims
 
     if event == cv2.EVENT_LBUTTONDOWN:
-        Z_CROPPING_WINDOW_ACTIVE_LEFT = True
-        z0 = calc_z_crop_snap_value(y)
+
+        temp = calc_z_crop_snap_value(y)
+
+        if temp > xProjDims['y']:
+            pass
+        else:
+            Z_CROPPING_WINDOW_ACTIVE_LEFT = True
+            z0 = temp
 
     if event == cv2.EVENT_RBUTTONDOWN:
-        Z_CROPPING_WINDOW_ACTIVE_RIGHT = True
-        z1 = calc_z_crop_snap_value(y)
+
+        temp = calc_z_crop_snap_value(y)
+
+        if temp > xProjDims['y']:
+            pass
+        else:
+            Z_CROPPING_WINDOW_ACTIVE_RIGHT = True
+            z1 = temp
 
 def select_cropping_colors():
 
@@ -255,7 +275,7 @@ def crop3D():
 
     croppedStack = stack[z0:z1, refPt[0][1]:refPt[1][1], refPt[0][0]:refPt[1][0]]
     croppedStackDims = gen_stack_dims_dict(croppedStack)
-    tifffile.imwrite(stackPath[:-4] + "_cropped.tif", croppedStack)
+    tifffile.imwrite(config.STACK_FULL_PATH[:-4] + "_cropped.tif", croppedStack)
     print_scan_dims(croppedStackDims)
     return croppedStack
 
@@ -294,7 +314,7 @@ def save_cubes_to_tif(cubes):
         fileName = "cube_" + str(cube.original_z_range[0]) + "-" + str(cube.original_z_range[1])
         fileName += "_" + str(cube.original_y_range[0]) + "-" + str(cube.original_y_range[1])
         fileName += "_" + str(cube.original_x_range[0]) + "-" + str(cube.original_x_range[1]) + ".tif"
-        tifffile.imwrite(outputDir + fileName, cube.data)
+        tifffile.imwrite(config.CUBE_OUTPUT_DIR + fileName, cube.data)
 
 
 def parse_coords_from_filename(filename):
@@ -313,6 +333,10 @@ def load_aivia_excel_results_into_cubes(cube_results_dir):
     cubes = []
 
     for file in files:
+
+        if ".tif" in file or ".xlsx" not in file:
+            print("Skipping non-excel file")
+            continue
 
         try:
             wb = xlrd.open_workbook(cube_results_dir + file)
@@ -380,7 +404,7 @@ save_cubes_to_tif(cubes)
 # Then run the cubes through aivia
 
 # Then run aivia's results through this
-# cubes = load_aivia_excel_results_into_cubes(aiviaExcelResultsDir)
+# cubes = load_aivia_excel_results_into_cubes(config.AIVIA_EXCEL_RESULTS_DIR)
 # map_path_lengths_to_range(cubes)
 # for cube in cubes:
 
