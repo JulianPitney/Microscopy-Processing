@@ -1,9 +1,10 @@
+import sys
+import config
 import cv2
 import tifffile
 import math
 import numpy as np
 import zstackUtils as zsu
-import config
 import xlrd
 from os import remove
 from os import listdir
@@ -85,35 +86,6 @@ class Cube(object):
 
         self.totalPathLength = totalPathLength
 
-
-def suggest_even_multiples(stack):
-
-    z = stack.shape[0]
-    y = stack.shape[1]
-    x = stack.shape[2]
-
-    zEvenMultiples = []
-    yEvenMultiples = []
-    xEvenMultiples = []
-
-    for i in range(40, 400):
-
-        if z % i == 0:
-            zEvenMultiples.append(i)
-        if y % i == 0:
-            yEvenMultiples.append(i)
-        if x % i == 0:
-            xEvenMultiples.append(i)
-
-    print("Even Multiples of Z [40-400):")
-    print(zEvenMultiples)
-    print()
-    print("Even Multiples of Y [40-400):")
-    print(yEvenMultiples)
-    print()
-    print("Even Multiples of X [40-400):")
-    print(xEvenMultiples)
-    print()
 
 def calc_xy_crop_snap_value(x):
 

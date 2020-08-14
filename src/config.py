@@ -13,11 +13,7 @@ CUBE_DIM_Z = int(100)
 
 
 # Data I/O config
-INPUT_SCAN_DIR = "../data/"
+INPUT_SCAN_DIR = "../LightsheetScans/"
 CUBE_OUTPUT_DIR = "../cubes/"
 AIVIA_EXCEL_RESULTS_DIR = "../cubes_excel/"
 STACK_FULL_PATH = INPUT_SCAN_DIR + "cubicR_Feb20_1laser_5umstep.tif"
-
-
-
-

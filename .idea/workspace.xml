@@ -20,10 +20,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="328f928b-4bd1-4108-9393-ac529b996c4c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/LightsheetScan.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/LightsheetScanIO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/julia.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/julia.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/binarize.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cvUtils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/densityMap.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/filter.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DensityMap3DAnalysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spaceballs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/zstackUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ZStackManipulationUtilities.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +65,8 @@
       <recent name="C:\Projects\Microscopy-Processing\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.lightsheet_scan_3d_volume_split">
-    <configuration name="binarize" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.LightsheetScanObject">
+    <configuration name="LightsheetScan" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Microscopy-Processing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -69,7 +78,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/binarize.py" />
+      <option name="SCRIPT_NAME" value="C:\Projects\Microscopy-Processing\src\LightsheetScan.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -132,7 +141,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/lightsheet_scan_3d_volume_split.py" />
+      <option name="SCRIPT_NAME" value="C:\Projects\Microscopy-Processing\src\DensityMap3DAnalysis.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -164,11 +173,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.LightsheetScanObject" />
         <item itemvalue="Python.lightsheet_scan_3d_volume_split" />
         <item itemvalue="Python.jack" />
         <item itemvalue="Python.spaceballs" />
         <item itemvalue="Python.cvUtils" />
-        <item itemvalue="Python.binarize" />
       </list>
     </recent_temporary>
   </component>
@@ -203,22 +212,22 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="2026" y="450" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597165847638" />
-    <state width="1537" height="345" key="GridCell.Tab.0.bottom" timestamp="1597286493320">
+    <state width="1525" height="344" key="GridCell.Tab.0.bottom" timestamp="1597381950454">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1537" height="345" key="GridCell.Tab.0.bottom/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597286493320" />
-    <state width="1537" height="345" key="GridCell.Tab.0.center" timestamp="1597286493320">
+    <state width="1525" height="344" key="GridCell.Tab.0.bottom/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597381950454" />
+    <state width="1525" height="344" key="GridCell.Tab.0.center" timestamp="1597381950454">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1537" height="345" key="GridCell.Tab.0.center/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597286493320" />
-    <state width="1537" height="345" key="GridCell.Tab.0.left" timestamp="1597286493320">
+    <state width="1525" height="344" key="GridCell.Tab.0.center/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597381950454" />
+    <state width="1525" height="344" key="GridCell.Tab.0.left" timestamp="1597381950454">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1537" height="345" key="GridCell.Tab.0.left/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597286493320" />
-    <state width="1537" height="345" key="GridCell.Tab.0.right" timestamp="1597286493320">
+    <state width="1525" height="344" key="GridCell.Tab.0.left/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597381950454" />
+    <state width="1525" height="344" key="GridCell.Tab.0.right" timestamp="1597381950454">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1537" height="345" key="GridCell.Tab.0.right/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597286493320" />
+    <state width="1525" height="344" key="GridCell.Tab.0.right/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597381950454" />
     <state x="713" y="508" width="1533" height="711" key="SettingsEditor" timestamp="1597195896313">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
