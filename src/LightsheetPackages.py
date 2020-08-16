@@ -1,6 +1,5 @@
 from AbstractPackages import Package, DataPackage, AnalysisPackage
 import ZStackManipulationUtilities as zsu
-import config
 import os
 
 class LightsheetScan(DataPackage):
@@ -35,23 +34,23 @@ class LightsheetScan(DataPackage):
     def __init__(self, attrDict):
         super().__init__(attrDict)
 
-        # These MUST be valid values or object creation should fail
+        self.set_name(attrDict['name'])
+        self.set_uniqueID(attrDict['uniqueID'])
+        self.set_sizeGB(attrDict['sizeGB'])
         self.set_stitchedPath(attrDict['stitchedPath'])
         self.set_tilesPath(attrDict['tilesPath'])
+        self.set_relativePath(attrDict['relativePath'])
+        self.set_creationDate(attrDict['creationDate'])
 
-        # Do not change the order of these calls
-        self.create_package_directory()
-        self.import_scan_stitched()
-        self.import_scan_tiles()
-        self.create_max_proj_thumbnail()
+
 
     def __del__(self):
         super().__del__()
 
     @staticmethod
-    def get_attr_dict():
+    def get_empty_attr_dict():
         concatenatedDict = {}
-        parentDict = DataPackage.get_attr_dict()
+        parentDict = DataPackage.get_empty_attr_dict()
         childDict = {
             'stitchedPath': None,
             'tilesPath': None,
@@ -81,33 +80,6 @@ class LightsheetScan(DataPackage):
         concatenatedDict.update(parentDict)
         concatenatedDict.update(childDict)
         return concatenatedDict
-
-    # TODO: Any kind of I/O needs exception handling. Implement it after showing demo to Jack.
-    def create_package_directory(self):
-        rootDir = config.PACKAGE_DIR
-        self.relativePath = rootDir + self.uniqueID + "/"
-        self.analysisPackagesPath = self.relativePath + "AnalysisPackages/"
-        os.mkdir(self.relativePath)
-        os.mkdir(self.analysisPackagesPath)
-
-    def import_scan_stitched(self):
-        newStitchedPath = self.relativePath + "Stitched/"
-        os.mkdir(newStitchedPath)
-        scanFilename = os.path.split(self.stitchedPath)[1]
-        newStitchedPath += scanFilename
-        os.rename(self.stitchedPath, newStitchedPath)
-        self.stitchedPath = newStitchedPath
-
-
-    def import_scan_tiles(self):
-        os.mkdir(self.relativePath + "Tiles")
-        # Move folder with tiles into package folder
-
-    def create_max_proj_thumbnail(self):
-        pass
-        # Create maxprojection for package thumbnail
-
-
 
     # Setters
     def set_stitchedPath(self, stitchedPath):
@@ -259,9 +231,9 @@ class LengthDensityMap3DAnalysis(AnalysisPackage):
         super().__del__()
 
     @staticmethod
-    def get_attr_dict():
+    def get_empty_attr_dict():
         concatenatedDict = {}
-        parentDict = AnalysisPackage.get_attr_dict()
+        parentDict = AnalysisPackage.get_empty_attr_dict()
         childDict = {
 
         }
@@ -279,9 +251,9 @@ class StrokeVolumeAnalysis(AnalysisPackage):
         super().__del__()
 
     @staticmethod
-    def get_attr_dict():
+    def get_empty_attr_dict():
         concatenatedDict = {}
-        parentDict = AnalysisPackage.get_attr_dict()
+        parentDict = AnalysisPackage.get_empty_attr_dict()
         childDict = {
 
         }
@@ -299,9 +271,9 @@ class VesselDiameterAnalysis(AnalysisPackage):
         super().__del__()
 
     @staticmethod
-    def get_attr_dict():
+    def get_empty_attr_dict():
         concatenatedDict = {}
-        parentDict = AnalysisPackage.get_attr_dict()
+        parentDict = AnalysisPackage.get_empty_attr_dict()
         childDict = {
 
         }

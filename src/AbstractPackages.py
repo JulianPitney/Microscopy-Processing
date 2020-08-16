@@ -23,7 +23,7 @@ class Package(object):
         pass
 
     @staticmethod
-    def get_attr_dict():
+    def get_empty_attr_dict():
         return {
             'name': None,
             'uniqueID': None,
@@ -91,9 +91,9 @@ class DataPackage(Package):
         super().__del__()
 
     @staticmethod
-    def get_attr_dict():
+    def get_empty_attr_dict():
         concatenatedDict = {}
-        parentDict = Package.get_attr_dict()
+        parentDict = Package.get_empty_attr_dict()
         childDict = {
 
         }
@@ -111,9 +111,9 @@ class AnalysisPackage(Package):
         super().__del__()
 
     @staticmethod
-    def get_attr_dict():
+    def get_empty_attr_dict():
         concatenatedDict = {}
-        parentDict = Package.get_attr_dict()
+        parentDict = Package.get_empty_attr_dict()
         childDict = {
 
         }
