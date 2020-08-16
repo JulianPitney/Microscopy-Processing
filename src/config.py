@@ -1,1 +1,1 @@
-DATA_DIR = "../data/"
+PACKAGE_DIR = "../packages/"

@@ -1,6 +1,5 @@
 import pickle
 
-
 class Package(object):
 
     name = None
@@ -11,6 +10,8 @@ class Package(object):
     sizeGB = None
 
     def __init__(self, attrDict):
+
+        # These MUST be valid values or object creation should fail
         self.set_name(attrDict['name'])
         self.set_uniqueID(attrDict['uniqueID'])
         self.set_relativePath(attrDict['relativePath'])

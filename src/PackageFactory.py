@@ -42,6 +42,10 @@ class PackageFactory(object):
     def create_LightsheetScan(self, packageType):
         print("Created LightsheetScan")
         attrDict = LightsheetScan.get_attr_dict()
+        attrDict['name'] = "test"
+        attrDict['uniqueID'] = "AVREJHF742397"
+        attrDict['sizeGB'] = 9001
+        attrDict['stitchedPath'] = "C://Users//julia//Desktop//test_scan.tif"
         return LightsheetScan(attrDict)
 
     def create_LengthDensityMap3DAnalysis(self, packageType):

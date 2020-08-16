@@ -1,9 +1,15 @@
 from AbstractPackages import Package, DataPackage, AnalysisPackage
-
+import ZStackManipulationUtilities as zsu
+import config
+import os
 
 class LightsheetScan(DataPackage):
 
     # Scan Info
+    stitchedPath = None
+    tilesPath = None
+    maxProjPath = None
+    analysisPackagesPath = None
     numTiles = None
     tileSizeZ = None
     tileSizeY = None
@@ -28,25 +34,16 @@ class LightsheetScan(DataPackage):
 
     def __init__(self, attrDict):
         super().__init__(attrDict)
-        self.set_numTiles(attrDict['numTiles'])
-        self.set_tileSizeZ(attrDict['tileSizeZ'])
-        self.set_tileSizeY(attrDict['tileSizeY'])
-        self.set_tileSizeX(attrDict['tileSizeX'])
-        self.set_bitDepth(attrDict['bitDepth'])
-        self.set_umStepSizeZ(attrDict['umStepSizeZ'])
-        self.set_umPerStep(attrDict['umPerStep'])
-        self.set_scanStepSpeed(attrDict['scanStepSpeed'])
-        self.set_sleepDurationAfterMovement(attrDict['sleepDurationAfterMovement'])
-        self.set_timeLapseN(attrDict['timelapseN'])
-        self.set_timelapseIntervalS(attrDict['timelapseIntervalS'])
-        self.set_tileScanDimensions(attrDict['tileScanDimensions'])
-        self.set_imagingObjectiveMagnification(attrDict['imagingObjectiveMagnification'])
-        self.set_umPerPixel(attrDict['umPerPixel'])
-        self.set_refrativeIndexImmersion(attrDict['refractiveIndexImmersion'])
-        self.set_numericalAperture(attrDict['numericalAperture'])
-        self.set_fluorescenceWavelength(attrDict['fluorescenceWavelength'])
-        self.set_umTileOverlapX(attrDict['umTileOverlapX'])
-        self.set_umTileOverlapY(attrDict['umTileOverlapY'])
+
+        # These MUST be valid values or object creation should fail
+        self.set_stitchedPath(attrDict['stitchedPath'])
+        self.set_tilesPath(attrDict['tilesPath'])
+
+        # Do not change the order of these calls
+        self.create_package_directory()
+        self.import_scan_stitched()
+        self.import_scan_tiles()
+        self.create_max_proj_thumbnail()
 
     def __del__(self):
         super().__del__()
@@ -56,6 +53,10 @@ class LightsheetScan(DataPackage):
         concatenatedDict = {}
         parentDict = DataPackage.get_attr_dict()
         childDict = {
+            'stitchedPath': None,
+            'tilesPath': None,
+            'maxProjPath': None,
+            'analysisPackagesPath': None,
             'numTiles': None,
             'tileSizeZ': None,
             'tileSizeY': None,
@@ -81,7 +82,46 @@ class LightsheetScan(DataPackage):
         concatenatedDict.update(childDict)
         return concatenatedDict
 
+    # TODO: Any kind of I/O needs exception handling. Implement it after showing demo to Jack.
+    def create_package_directory(self):
+        rootDir = config.PACKAGE_DIR
+        self.relativePath = rootDir + self.uniqueID + "/"
+        self.analysisPackagesPath = self.relativePath + "AnalysisPackages/"
+        os.mkdir(self.relativePath)
+        os.mkdir(self.analysisPackagesPath)
+
+    def import_scan_stitched(self):
+        newStitchedPath = self.relativePath + "Stitched/"
+        os.mkdir(newStitchedPath)
+        scanFilename = os.path.split(self.stitchedPath)[1]
+        newStitchedPath += scanFilename
+        os.rename(self.stitchedPath, newStitchedPath)
+        self.stitchedPath = newStitchedPath
+
+
+    def import_scan_tiles(self):
+        os.mkdir(self.relativePath + "Tiles")
+        # Move folder with tiles into package folder
+
+    def create_max_proj_thumbnail(self):
+        pass
+        # Create maxprojection for package thumbnail
+
+
+
     # Setters
+    def set_stitchedPath(self, stitchedPath):
+        self.stitchedPath = stitchedPath
+
+    def set_tilesPath(self, tilesPath):
+        self.tilesPath = tilesPath
+
+    def set_maxProjPath(self, maxProjPath):
+        self.maxProjPath = maxProjPath
+
+    def set_analysisPackagesPath(self, analysisPackagesPath):
+        self.analysisPackagesPath = analysisPackagesPath
+
     def set_numTiles(self, numTiles):
         self.numTiles = numTiles
 
@@ -140,6 +180,18 @@ class LightsheetScan(DataPackage):
         self.umTileOverlapY = umTileOverlapY
 
     # Getters
+    def get_stitchedPath(self):
+        return self.stitchedPath
+
+    def get_tilesPath(self):
+        return self.tilesPath
+
+    def get_maxProjPath(self):
+        return self.maxProjPath
+
+    def get_analysisPackagesPath(self):
+        return self.analysisPackagesPath
+
     def get_numTiles(self):
         return self.numTiles
 

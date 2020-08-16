@@ -20,13 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="328f928b-4bd1-4108-9393-ac529b996c4c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/LightsheetPackages.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PackageFactory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Microscopy-Processing.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Microscopy-Processing.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AnalysisPackage.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataPackage.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AbstractPackages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LightsheetAnalysisPackages.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LightsheetDataPackage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AbstractPackages.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AbstractPackages.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LightsheetPackages.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/LightsheetPackages.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PackageFactory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/PackageFactory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/analysis/DensityMap3DAnalysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deprecated/DensityMap3DAnalysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/analysis/ZStackManipulationUtilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ZStackManipulationUtilities.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
@@ -57,10 +58,10 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Projects\Microscopy-Processing\src" />
       <recent name="C:\Projects\Microscopy-Processing\analysis" />
       <recent name="C:\Projects\Microscopy-Processing" />
       <recent name="C:\Projects\Microscopy-Processing\data" />
-      <recent name="C:\Projects\Microscopy-Processing\src" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
@@ -215,26 +216,26 @@
     </state>
     <state x="2026" y="450" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597459222139" />
     <state x="2026" y="450" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597524123908" />
-    <state width="1570" height="341" key="GridCell.Tab.0.bottom" timestamp="1597539079798">
+    <state width="1570" height="341" key="GridCell.Tab.0.bottom" timestamp="1597545599042">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state width="1648" height="341" key="GridCell.Tab.0.bottom/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597459365122" />
-    <state width="1570" height="341" key="GridCell.Tab.0.bottom/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597539079798" />
-    <state width="1570" height="341" key="GridCell.Tab.0.center" timestamp="1597539079798">
+    <state width="1570" height="341" key="GridCell.Tab.0.bottom/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597545599042" />
+    <state width="1570" height="341" key="GridCell.Tab.0.center" timestamp="1597545599042">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state width="1648" height="341" key="GridCell.Tab.0.center/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597459365121" />
-    <state width="1570" height="341" key="GridCell.Tab.0.center/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597539079798" />
-    <state width="1570" height="341" key="GridCell.Tab.0.left" timestamp="1597539079798">
+    <state width="1570" height="341" key="GridCell.Tab.0.center/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597545599042" />
+    <state width="1570" height="341" key="GridCell.Tab.0.left" timestamp="1597545599042">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state width="1648" height="341" key="GridCell.Tab.0.left/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597459365121" />
-    <state width="1570" height="341" key="GridCell.Tab.0.left/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597539079798" />
-    <state width="1570" height="341" key="GridCell.Tab.0.right" timestamp="1597539079798">
+    <state width="1570" height="341" key="GridCell.Tab.0.left/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597545599042" />
+    <state width="1570" height="341" key="GridCell.Tab.0.right" timestamp="1597545599042">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state width="1648" height="341" key="GridCell.Tab.0.right/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597459365121" />
-    <state width="1570" height="341" key="GridCell.Tab.0.right/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597539079798" />
+    <state width="1570" height="341" key="GridCell.Tab.0.right/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597545599042" />
     <state width="1570" height="437" key="GridCell.Tab.1.bottom" timestamp="1597531951511">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -260,6 +261,10 @@
     </state>
     <state x="3409" y="-8" width="933" height="1348" maximized="true" key="dock-window-1/0.0.3440.1400/3440.0.1080.1880@0.0.3440.1400" timestamp="1597470016125" />
     <state x="3348" y="332" width="1096" height="958" maximized="true" key="dock-window-1/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597525853245" />
+    <state x="3379" y="330" width="1096" height="958" maximized="true" key="dock-window-2" timestamp="1597543054869">
+      <screen x="3440" y="342" width="1080" height="1880" />
+    </state>
+    <state x="3379" y="330" width="1096" height="958" maximized="true" key="dock-window-2/0.0.3440.1400/3440.342.1080.1880/-1920.347.1920.1040@0.0.3440.1400" timestamp="1597543054869" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointCondition">
