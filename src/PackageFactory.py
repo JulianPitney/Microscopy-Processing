@@ -10,23 +10,16 @@ class PackageFactory(object):
 #---------------------------------------------------------------------------------------------#
 # Functions that are general to all Package types.                                            #
 #---------------------------------------------------------------------------------------------#
-    def print_error_message(self, msg):
+    @staticmethod
+    def print_error_message(msg):
         print("PackageFactory Error: " + msg)
 
-    def gen_unique_Package_ID(self):
-        # TODO: Implement proper unique package ID function
-        uuid = str(uuid4())
-        print(uuid)
-        return uuid
-
-    def create_Package_directory(self):
-
-        rootDir = config.PACKAGE_DIR
-        uniqueID = self.gen_unique_Package_ID()
-        relativePath = rootDir + uniqueID + "/"
+    # Takes a libpath Path object and attempts to create the directory.
+    # Returns false on failure and true on success.
+    def create_directory(self, pathObj):
 
         try:
-            Path(relativePath).mkdir(parents=False, exist_ok=False)
+            Path(pathObj).mkdir(parents=False, exist_ok=False)
         except FileExistsError:
             self.print_error_message("FileExistsError. Package directory creation failed.")
         except FileNotFoundError:
@@ -34,9 +27,25 @@ class PackageFactory(object):
         except:
             self.print_error_message("UnknownError. Package directory creation failed.")
         else:
+            return True
+
+        return False
+
+    def create_Package_directory_and_UID(self):
+
+        rootDir = config.PACKAGE_DIR
+        uniqueID = self.gen_unique_Package_ID()
+        relativePath = rootDir + uniqueID + "/"
+
+        dirCreationSuccess = self.create_directory(relativePath)
+        if dirCreationSuccess:
             return uniqueID, relativePath
 
         return None, None
+
+    def gen_unique_Package_ID(self):
+        # TODO: Implement proper unique package ID function
+        return str(uuid4())
 
 #---------------------------------------------------------------------------------------------#
 # Functions for selecting which PackageCreator function we want to use                        #
@@ -76,9 +85,17 @@ class PackageFactory(object):
         else:
             return None
 
+
+
+
 #---------------------------------------------------------------------------------------------#
-# LightsheetScan creation is handled here.                                                    #
+# LightsheetScan creation is done here.                                                    #
 #---------------------------------------------------------------------------------------------#
+
+    # This function attempts to create a LightsheetScan object. It will attempt to set and validate
+    # all the required parameters for creating a LightsheetScan object. If it fails to set and validate
+    # any of the required parameters, it will return None. If it succeeds, it will return a valid
+    # LightsheetScan object.
     def create_LightsheetScan(self, packageType):
 
         # TODO: Creator methods should ensure all the required attributes are set
@@ -93,8 +110,16 @@ class PackageFactory(object):
         #  responsibility (Creator ensures everything needed for object creation
         #  is present, while object __init__ handles actual creation).
 
+        # Default success is true, then we go through a list of checks that
+        # will flip this to false if any of them fail.
         objectCreationSuccess = True
+
+        # Get a dictionary that contains all the attributes our object has. All attributes
+        # default to None.
         attrDict = LightsheetScan.get_empty_attr_dict()
+
+        # This list specifies which attributes MUST be set and valid before object creation can be
+        # attempted.
         requiredAttributes = [
             'name',
             'uniqueID',
@@ -105,64 +130,86 @@ class PackageFactory(object):
             'creationDate'
         ]
 
+        # Attempt to set and validate all required attributes.
+        # TODO: Setting everything manually until this gets hooked up to some front end that can set them automatically
         attrDict['name'] = "LightsheetScan"
         attrDict['sizeGB'] = 9001
         attrDict['creationDate'] = "madeup:date"
-        attrDict['uniqueID'], attrDict['relativePath'] = self.create_Package_directory()
-
+        attrDict['uniqueID'], attrDict['relativePath'] = self.create_Package_directory_and_UID()
         attrDict['tilesPath'] = input("Input tiles full path: ")
         attrDict['stitchedPath'] = input("Input stitched scan full path: ")
+
+
         stitchImportSuccess = self.import_stitched_LightsheetScan(attrDict['stitchedPath'], attrDict['relativePath'])
         tilesImportSuccess = self.import_tiles_LightsheetScan(attrDict['tilesPath'], attrDict['relativePath'])
-
-        if stitchImportSuccess and tilesImportSuccess:
-            pass
-        else:
+        if not stitchImportSuccess or not tilesImportSuccess:
             objectCreationSuccess = False
-            self.print_error_message("ObjectCreationError. LightsheetScan object creation failed because the scan files could not be imported.")
 
-        # Based on the result of the Essence setup, decide whether to proceed
-        # with object creation.
+        # If objectCreationSuccess has not been set to false, we're safe to attempt object creation.
         if objectCreationSuccess:
-            return LightsheetScan(attrDict)
-        else:
-            return None
+            lightsheetScan = LightsheetScan(attrDict)
+            lightsheetScanObjDumpPath = Path(attrDict['relativePath']).joinpath(Path(attrDict['uniqueID'] + '.p'))
+            objectCreationSuccess = lightsheetScan.save_package(lightsheetScanObjDumpPath)
 
+        return objectCreationSuccess
 
-    def import_stitched_LightsheetScan(self, stitchedPath, lightsheetScanPath):
+    def import_stitched_LightsheetScan(self, inputStitchedScanPath, objectRootDir):
 
+        # Default success is true, then we go through a list of checks that
+        # will flip this to false if any of them fail.
         fileImportSuccess = True
-        stitchedPath = Path(stitchedPath)
-        lightsheetScanPath = Path(lightsheetScanPath)
 
-        if not stitchedPath.exists():
+        # Make sure the file to be imported exists and that the location it's being imported to
+        # exists as well.
+        inputStitchedScanPath = Path(inputStitchedScanPath)
+        objectRootDir = Path(objectRootDir)
+
+        if not inputStitchedScanPath.exists():
+            fileImportSuccess = False
+        if not objectRootDir.exists():
             fileImportSuccess = False
 
-        if not lightsheetScanPath.exists():
+        # Create the subdirectory where the file is going to be imported to.
+        outputStitchedScanPath = Path(objectRootDir.joinpath('Stitched/'))
+        dirCreationSuccess = self.create_directory(outputStitchedScanPath)
+        if not dirCreationSuccess:
             fileImportSuccess = False
 
-        outputStitchedPath = Path(lightsheetScanPath.joinpath('Stitched/'))
+        # If everything above worked properly, import the file.
+        if fileImportSuccess:
+            stitchedScanFileName = inputStitchedScanPath.stem + inputStitchedScanPath.suffix
+            inputStitchedScanPath.rename(outputStitchedScanPath.joinpath(stitchedScanFileName))
 
-        try:
-            outputStitchedPath.mkdir(parents=False, exist_ok=False)
-        except FileExistsError:
-            self.print_error_message("FileExistsError. Stitched scan directory creation failed.")
-            fileImportSuccess = False
-        except FileNotFoundError:
-            self.print_error_message("FileNotFoundError. Stitched scan directory creation failed.")
-            fileImportSuccess = False
-        except:
-            self.print_error_message("UnknownError. Stitched scan directory creation failed.")
-            fileImportSuccess = False
-
-        stitchedScanFileName = stitchedPath.stem + stitchedPath.suffix
-        stitchedPath.rename(outputStitchedPath.joinpath(stitchedScanFileName))
-
+        # Return code specifies whether import failed or succeeded.
         return fileImportSuccess
 
 
-    def import_tiles_LightsheetScan(self, tilesPath, lightsheetScanPath):
-        return True
+    def import_tiles_LightsheetScan(self, inputTilesScanPath, objectRootDir):
+
+        # Default success is true, then we go through a list of checks that
+        # will flip this to false if any of them fail.
+        fileImportSuccess = True
+
+        # Make sure the file to be imported exists and that the location it's being imported to
+        # exists as well.
+        inputTilesScanPath = Path(inputTilesScanPath)
+        objectRootDir = Path(objectRootDir)
+
+        if not inputTilesScanPath.exists():
+            fileImportSuccess = False
+        if not objectRootDir.exists():
+            fileImportSuccess = False
+
+        # If everything above worked properly, import the file.
+        if fileImportSuccess:
+            stitchedScanFileName = inputTilesScanPath.stem + inputTilesScanPath.suffix
+            inputTilesScanPath.rename(objectRootDir.joinpath(stitchedScanFileName))
+
+        # Return code specifies whether import failed or succeeded.
+        return fileImportSuccess
+
+
+
 
 
 

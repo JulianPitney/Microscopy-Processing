@@ -1,4 +1,5 @@
 import pickle
+from pickle import UnpicklingError, PicklingError
 
 class Package(object):
 
@@ -23,6 +24,10 @@ class Package(object):
         pass
 
     @staticmethod
+    def print_error_message(msg):
+        print("PackageError: " + msg)
+
+    @staticmethod
     def get_empty_attr_dict():
         return {
             'name': None,
@@ -35,11 +40,32 @@ class Package(object):
 
     # I/O
     @staticmethod
-    def load_package():
-        return pickle.load(open("Package.p", 'rb'))
+    def load_package(path):
 
-    def save_package(self):
-        pickle.dump(self, open("Package.p", 'wb'))
+        unpickledObj = None
+
+        try:
+            unpickledObj = pickle.load(open(path, 'rb'))
+        except UnpicklingError:
+            Package.print_error_message("UnpicklingError. Failed to load Package object from pickle file.")
+        else:
+            return unpickledObj
+
+        return unpickledObj
+
+    def save_package(self, path):
+
+        saveSuccess = True
+
+        try:
+            pickle.dump(self, open(path, 'wb'))
+        except PicklingError:
+            Package.print_error_message("PicklingError. Failed to save Package object to disk.")
+            saveSuccess = False
+        else:
+            return saveSuccess
+
+        return saveSuccess
 
     # Setters
     def set_name(self, name):
