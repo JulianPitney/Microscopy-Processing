@@ -1,6 +1,7 @@
 import pickle
 from pickle import UnpicklingError, PicklingError
 
+
 class Package(object):
 
     name = None

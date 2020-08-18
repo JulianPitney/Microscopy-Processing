@@ -1,8 +1,10 @@
 from AbstractPackages import Package, DataPackage, AnalysisPackage
-import ZStackManipulationUtilities as zsu
-import os
+from PackageExceptions import PackageError
+from pathlib import Path
 
 class LightsheetScan(DataPackage):
+
+    attrDict = None
 
     # Scan Info
     stitchedPath = None
@@ -42,6 +44,11 @@ class LightsheetScan(DataPackage):
         self.set_relativePath(attrDict['relativePath'])
         self.set_creationDate(attrDict['creationDate'])
 
+        self.attrDict = attrDict
+
+        try:
+            self.resource_wellness_check(attrDict)
+        except PackageError as e: print(e)
 
 
     def __del__(self):
@@ -80,6 +87,31 @@ class LightsheetScan(DataPackage):
         concatenatedDict.update(parentDict)
         concatenatedDict.update(childDict)
         return concatenatedDict
+
+    # This should be called immediately after
+    # loading an object. This will verify
+    # that the resources pointed to by the
+    # object still exist. This may not be necessary
+    # once we move away from the raw filesystem
+    # for storing data.
+    #
+    # Returns True if object is valid
+    def resource_wellness_check(self, attrDict):
+
+        resourcesToCheck = [
+            'stitchedPath',
+            'tilesPath',
+            'maxProjPath',
+            'analysisPackagesPath'
+        ]
+
+        for attr in resourcesToCheck:
+            resourcePath = self.attrDict[attr]
+
+            if resourcePath == None:
+                continue
+            elif not Path(resourcePath).exists():
+                raise PackageError("A lightsheetScan object has failed to find it's resource at: " + str(resourcePath))
 
     # Setters
     def set_stitchedPath(self, stitchedPath):

@@ -1,5 +1,4 @@
 from uuid import uuid4
-
 from AbstractPackages import Package, DataPackage, AnalysisPackage
 from LightsheetPackages import LightsheetScan, LengthDensityMap3DAnalysis, StrokeVolumeAnalysis, VesselDiameterAnalysis
 import config
@@ -108,7 +107,7 @@ class PackageFactory(object):
         #  ensures we never accidentally create objects with
         #  an invalid state and gives a clear separation of
         #  responsibility (Creator ensures everything needed for object creation
-        #  is present, while object __init__ handles actual creation).
+        #  is present, while object __init__() handles actual creation).
 
         # Default success is true, then we go through a list of checks that
         # will flip this to false if any of them fail.
