@@ -1,6 +1,50 @@
 import cv2
+import tifffile as tif
 import numpy as np
+from os import remove
 
+
+
+
+def load_stack(path):
+    return tif.imread(path)
+
+def save_stack(stack):
+
+    for z in range(0, len(stack)):
+        cv2.imwrite("../data/" + str(z) + ".png", stack[z])
+
+def save_png(path, image):
+    cv2.imwrite(path, image)
+
+def gen_stack_dims_dict(stack):
+    return dict({'z': stack.shape[0], 'y': stack.shape[1], 'x': stack.shape[2]})
+
+def max_project(stack):
+
+    stackMax = np.max(stack, axis=0)
+    return stackMax
+
+def max_project_x(stack):
+
+    stackMax = np.max(stack, axis=2)
+    return stackMax
+
+def save_and_reload_maxproj(stack):
+
+    max = max_project(stack)
+    cv2.imwrite("temp.jpg", max)
+    max = cv2.imread("temp.jpg")
+    remove('temp.jpg')
+    return max
+
+def save_and_reload_maxproj_x(stack):
+
+    max = max_project_x(stack)
+    cv2.imwrite("temp.jpg", max)
+    max = cv2.imread("temp.jpg")
+    remove('temp.jpg')
+    return max
 
 def display_stack(stack, auto):
 
@@ -14,28 +58,6 @@ def display_stack(stack, auto):
             cv2.waitKey(1)
         else:
             cv2.waitKey(0)
-
-
-
-
-
-def max_project(stack):
-
-    stackMax = np.max(stack, axis=0)
-    return stackMax
-
-def max_project_x(stack):
-
-    stackMax = np.max(stack, axis=2)
-    return stackMax
-
-def save_stack(stack):
-
-    for z in range(0, len(stack)):
-        cv2.imwrite("../data/" + str(z) + ".png", stack[z])
-
-
-
 
 def convert_grayscale_stack_to_color(stack):
 

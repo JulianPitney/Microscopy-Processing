@@ -34,7 +34,7 @@ class PackageFactory(object):
 
         rootDir = config.PACKAGE_DIR
         uniqueID = self.gen_unique_Package_ID()
-        relativePath = rootDir + uniqueID + "/"
+        relativePath = rootDir + uniqueID + "//"
 
         dirCreationSuccess = self.create_directory(relativePath)
         if dirCreationSuccess:
@@ -112,6 +112,7 @@ class PackageFactory(object):
         # Default success is true, then we go through a list of checks that
         # will flip this to false if any of them fail.
         objectCreationSuccess = True
+        lightsheetScan = None
 
         # Get a dictionary that contains all the attributes our object has. All attributes
         # default to None.
@@ -139,24 +140,27 @@ class PackageFactory(object):
         attrDict['stitchedPath'] = input("Input stitched scan full path: ")
 
 
-        stitchImportSuccess = self.import_stitched_LightsheetScan(attrDict['stitchedPath'], attrDict['relativePath'])
-        tilesImportSuccess = self.import_tiles_LightsheetScan(attrDict['tilesPath'], attrDict['relativePath'])
+        stitchImportSuccess, stitchScanFinalPath = self.import_stitched_LightsheetScan(attrDict['stitchedPath'], attrDict['relativePath'])
+        tilesImportSuccess, tilesFinalPath = self.import_tiles_LightsheetScan(attrDict['tilesPath'], attrDict['relativePath'])
         if not stitchImportSuccess or not tilesImportSuccess:
             objectCreationSuccess = False
 
         # If objectCreationSuccess has not been set to false, we're safe to attempt object creation.
         if objectCreationSuccess:
+            attrDict['stitchedPath'] = stitchScanFinalPath
+            attrDict['tilesPath'] = tilesFinalPath
             lightsheetScan = LightsheetScan(attrDict)
             lightsheetScanObjDumpPath = Path(attrDict['relativePath']).joinpath(Path(attrDict['uniqueID'] + '.p'))
             objectCreationSuccess = lightsheetScan.save_package(lightsheetScanObjDumpPath)
 
-        return objectCreationSuccess
+        return lightsheetScan
 
     def import_stitched_LightsheetScan(self, inputStitchedScanPath, objectRootDir):
 
         # Default success is true, then we go through a list of checks that
         # will flip this to false if any of them fail.
         fileImportSuccess = True
+        outputStitchedScanPath = None
 
         # Make sure the file to be imported exists and that the location it's being imported to
         # exists as well.
@@ -177,10 +181,11 @@ class PackageFactory(object):
         # If everything above worked properly, import the file.
         if fileImportSuccess:
             stitchedScanFileName = inputStitchedScanPath.stem + inputStitchedScanPath.suffix
-            inputStitchedScanPath.rename(outputStitchedScanPath.joinpath(stitchedScanFileName))
+            outputStitchedScanPath = outputStitchedScanPath.joinpath(stitchedScanFileName)
+            inputStitchedScanPath.rename(outputStitchedScanPath)
 
         # Return code specifies whether import failed or succeeded.
-        return fileImportSuccess
+        return fileImportSuccess, outputStitchedScanPath
 
 
     def import_tiles_LightsheetScan(self, inputTilesScanPath, objectRootDir):
@@ -188,6 +193,7 @@ class PackageFactory(object):
         # Default success is true, then we go through a list of checks that
         # will flip this to false if any of them fail.
         fileImportSuccess = True
+        outputTilesPath = None
 
         # Make sure the file to be imported exists and that the location it's being imported to
         # exists as well.
@@ -202,10 +208,11 @@ class PackageFactory(object):
         # If everything above worked properly, import the file.
         if fileImportSuccess:
             stitchedScanFileName = inputTilesScanPath.stem + inputTilesScanPath.suffix
-            inputTilesScanPath.rename(objectRootDir.joinpath(stitchedScanFileName))
+            outputTilesPath = objectRootDir.joinpath(stitchedScanFileName)
+            inputTilesScanPath.rename(outputTilesPath)
 
         # Return code specifies whether import failed or succeeded.
-        return fileImportSuccess
+        return fileImportSuccess, outputTilesPath
 
 
 

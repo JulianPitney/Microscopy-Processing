@@ -1,6 +1,7 @@
 from AbstractPackages import Package, DataPackage, AnalysisPackage
 from PackageExceptions import PackageError
 from pathlib import Path
+from zStackUtils import load_stack, max_project, save_and_reload_maxproj, save_png
 
 class LightsheetScan(DataPackage):
 
@@ -36,6 +37,7 @@ class LightsheetScan(DataPackage):
     def __init__(self, attrDict):
         super().__init__(attrDict)
 
+        self.attrDict = attrDict
         self.set_name(attrDict['name'])
         self.set_uniqueID(attrDict['uniqueID'])
         self.set_sizeGB(attrDict['sizeGB'])
@@ -44,12 +46,14 @@ class LightsheetScan(DataPackage):
         self.set_relativePath(attrDict['relativePath'])
         self.set_creationDate(attrDict['creationDate'])
 
-        self.attrDict = attrDict
-
+        # Any time we initialize a Package we should check
+        # that all attributes are initialized to a valid state.
         try:
-            self.resource_wellness_check(attrDict)
+            self.resource_wellness_check()
         except PackageError as e: print(e)
 
+        # If all the attributes seem okay, generate a thumbnail for the package.
+        self.gen_maxproj_thumbnail()
 
     def __del__(self):
         super().__del__()
@@ -96,10 +100,12 @@ class LightsheetScan(DataPackage):
     # for storing data.
     #
     # Returns True if object is valid
-    def resource_wellness_check(self, attrDict):
+    def resource_wellness_check(self):
 
         resourcesToCheck = [
+            'relativePath',
             'stitchedPath',
+            'maxProjPath',
             'tilesPath',
             'maxProjPath',
             'analysisPackagesPath'
@@ -108,10 +114,24 @@ class LightsheetScan(DataPackage):
         for attr in resourcesToCheck:
             resourcePath = self.attrDict[attr]
 
+            # If the resource isn't initialized to anything we don't have to worry about it.
+            # If it is initialized, check that everything is cool.
             if resourcePath == None:
                 continue
             elif not Path(resourcePath).exists():
-                raise PackageError("A lightsheetScan object has failed to find it's resource at: " + str(resourcePath))
+                raise PackageError("A lightsheetScan object has failed to find it's [" + attr + "] resource at: " + str(resourcePath))
+
+    def gen_maxproj_thumbnail(self):
+
+        full_path = self.get_stitchedPath().absolute()
+        full_path = full_path.as_posix()
+        stitchedStack = load_stack(full_path)
+        maxProj = save_and_reload_maxproj(stitchedStack)
+        maxProjPath = self.get_relativePath() + "thumbnail.png"
+        save_png(maxProjPath, maxProj)
+        self.set_maxProjPath(maxProjPath)
+
+
 
     # Setters
     def set_stitchedPath(self, stitchedPath):
