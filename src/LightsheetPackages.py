@@ -17,6 +17,10 @@ class LightsheetScan(DataPackage):
     tileSizeY = None
     tileSizeX = None
     bitDepth = None
+    authorName = None
+    specimenName = None
+    specimenPrepProtocol = None
+    notes = None
 
     # Lightsheet Config
     umStepSizeZ = None
@@ -37,14 +41,34 @@ class LightsheetScan(DataPackage):
     def __init__(self, attrDict):
         super().__init__(attrDict)
 
-        self.attrDict = attrDict
-        self.set_name(attrDict['name'])
-        self.set_uniqueID(attrDict['uniqueID'])
-        self.set_sizeGB(attrDict['sizeGB'])
         self.set_stitchedPath(attrDict['stitchedPath'])
         self.set_tilesPath(attrDict['tilesPath'])
-        self.set_relativePath(attrDict['relativePath'])
-        self.set_creationDate(attrDict['creationDate'])
+        self.set_maxProjPath(attrDict['maxProjPath'])
+        self.set_analysisPackagesPath(['analysisPackagesPath'])
+        self.set_numTiles(attrDict['numTiles'])
+        self.set_tileSizeZ(attrDict['tileSizeZ'])
+        self.set_tileSizeY(attrDict['tileSizeY'])
+        self.set_tileSizeX(attrDict['tileSizeX'])
+        self.set_bitDepth(attrDict['bitDepth'])
+        self.set_authorName(attrDict['authorName'])
+        self.set_specimenName(attrDict['specimenName'])
+        self.set_specimenPrepProtocol(attrDict['specimenPrepProtocol'])
+        self.set_notes(attrDict['notes'])
+        self.set_umStepSizeZ(attrDict['umStepSizeZ'])
+        self.set_umPerStep(attrDict['umPerStep'])
+        self.set_scanStepSpeed(attrDict['scanStepSpeed'])
+        self.set_sleepDurationAfterMovement(attrDict['sleepDurationAfterMovement'])
+        self.set_timeLapseN(attrDict['timelapseN'])
+        self.set_timelapseIntervalS(attrDict['timelapseIntervalS'])
+        self.set_tileScanDimensions(attrDict['tileScanDimensions'])
+        self.set_imagingObjectiveMagnification(attrDict['imagingObjectiveMagnification'])
+        self.set_umPerPixel(attrDict['umPerPixel'])
+        self.set_refrativeIndexImmersion(attrDict['refractiveIndexImmersion'])
+        self.set_numericalAperture(attrDict['numericalAperture'])
+        self.set_fluorescenceWavelength(attrDict['fluorescenceWavelength'])
+        self.set_umTileOverlapX(attrDict['umTileOverlapX'])
+        self.set_umTileOverlapY(attrDict['umTileOverlapY'])
+
 
         # Any time we initialize a Package we should check
         # that all attributes are initialized to a valid state.
@@ -72,6 +96,10 @@ class LightsheetScan(DataPackage):
             'tileSizeY': None,
             'tileSizeX': None,
             'bitDepth': None,
+            'authorName': None,
+            'specimenName': None,
+            'specimenPrepProtocol': None,
+            'notes': None,
             'umStepSizeZ': None,
             'umPerStep': None,
             'scanStepSpeed': None,
@@ -161,6 +189,18 @@ class LightsheetScan(DataPackage):
     def set_bitDepth(self, bitDepth):
         self.bitDepth = bitDepth
 
+    def set_authorName(self, authorName):
+        self.authorName = authorName
+
+    def set_specimenName(self, specimenName):
+        self.specimenName = specimenName
+
+    def set_specimenPrepProtocol(self, specimenPrepProtocol):
+        self.specimenPrepProtocol = specimenPrepProtocol
+
+    def set_notes(self, notes):
+        self.notes = notes
+
     def set_umStepSizeZ(self, umStepSizeZ):
         self.umStepSizeZ = umStepSizeZ
 
@@ -230,6 +270,18 @@ class LightsheetScan(DataPackage):
 
     def get_bitDepth(self):
         return self.bitDepth
+
+    def get_authorName(self):
+        return self.authorName
+
+    def get_specimenName(self):
+        return self.specimenName
+
+    def get_specimenPrepProtocol(self):
+        return self.specimenPrepProtocol
+
+    def get_notes(self):
+        return self.notes
 
     def get_umStepSizeZ(self):
         return self.umStepSizeZ

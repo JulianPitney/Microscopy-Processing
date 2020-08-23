@@ -7,17 +7,17 @@ class Package(object):
     name = None
     uniqueID = None
     relativePath = None
-    fullPath = None
     creationDate = None
     sizeGB = None
+    attrDict = None
 
     def __init__(self, attrDict):
 
+        self.attrDict = attrDict
         # These MUST be valid values or object creation should fail
         self.set_name(attrDict['name'])
         self.set_uniqueID(attrDict['uniqueID'])
         self.set_relativePath(attrDict['relativePath'])
-        self.set_fullPath(attrDict['fullPath'])
         self.set_creationDate(attrDict['creationDate'])
         self.set_sizeGB(attrDict['sizeGB'])
 
@@ -78,9 +78,6 @@ class Package(object):
     def set_relativePath(self, relativePath):
         self.relativePath = relativePath
 
-    def set_fullPath(self, fullPath):
-        self.fullPath = fullPath
-
     def set_creationDate(self, creationDate):
         self.creationDate = creationDate
 
@@ -97,9 +94,6 @@ class Package(object):
     def get_relativePath(self):
         return self.relativePath
 
-    def get_fullPath(self):
-        return self.fullPath
-
     def get_creationDate(self):
         return self.creationDate
 
@@ -108,8 +102,6 @@ class Package(object):
 
 
 class DataPackage(Package):
-
-    analysisPackages = []
 
     def __init__(self, attrDict):
         super().__init__(attrDict)

@@ -113,32 +113,42 @@ class PackageFactory(object):
         # will flip this to false if any of them fail.
         objectCreationSuccess = True
         lightsheetScan = None
-
         # Get a dictionary that contains all the attributes our object has. All attributes
         # default to None.
         attrDict = LightsheetScan.get_empty_attr_dict()
 
-        # This list specifies which attributes MUST be set and valid before object creation can be
-        # attempted.
-        requiredAttributes = [
-            'name',
-            'uniqueID',
-            'sizeGB',
-            'stitchedPath',
-            'tilesPath',
-            'relativePath',
-            'creationDate'
-        ]
-
         # Attempt to set and validate all required attributes.
         # TODO: Setting everything manually until this gets hooked up to some front end that can set them automatically
-        attrDict['name'] = "LightsheetScan"
-        attrDict['sizeGB'] = 9001
-        attrDict['creationDate'] = "madeup:date"
+        #   These are also missing any kind of sanitization/validation.
+        #   Also missing any kind of user guide/descriptions.
+        attrDict['name'] = str(input("Input Scan Name: "))
         attrDict['uniqueID'], attrDict['relativePath'] = self.create_Package_directory_and_UID()
-        attrDict['tilesPath'] = input("Input tiles full path: ")
-        attrDict['stitchedPath'] = input("Input stitched scan full path: ")
-
+        attrDict['creationDate'] = str(input("Input Creation Date: "))
+        attrDict['stitchedPath'] = str(input("Input Stitched Path: "))
+        attrDict['tilesPath'] = str(input("Input Tiles Path: "))
+        attrDict['numTiles'] = str(input("Input Tile Dims: "))
+        attrDict['tileSizeZ'] = int(input("Input tileSizeZ: "))
+        attrDict['tileSizeY'] = int(input("Input tileSizeY: "))
+        attrDict['tileSizeX'] = int(input("Input tileSizeX: "))
+        attrDict['bitDepth'] = int(input("Input bitDepth: "))
+        attrDict['authorName'] = str(input("Input authorName: "))
+        attrDict['specimenName'] = str(input("Input specimenName: "))
+        attrDict['specimenPrepProtocol'] = str(input("Input Protocol Name: "))
+        attrDict['notes'] = str(input("Input notes: "))
+        attrDict['umStepSizeZ'] = float(input("Input umStepSizeZ: "))
+        attrDict['umPerStep'] = float(input("Input umPerStep: "))
+        attrDict['scanStepSpeed'] = float(input("Input scanStepSpeed: "))
+        attrDict['sleepDurationAfterMovement'] = float(input("Input sleepDurationAfterMovement: "))
+        attrDict['timelapseN'] = int(input("Input timelapseN: "))
+        attrDict['timelapseIntervalS'] = int(input("Input timelapseIntervalS: "))
+        attrDict['tileScanDimensions'] = str(input("Input tileScanDims: "))
+        attrDict['imagingObjectiveMagnification'] = float(input("Input Imaging Objective Mag: "))
+        attrDict['umPerPixel'] = float(input("Input umPerPixel: "))
+        attrDict['refractiveIndexImmersion'] = float(input("Input Refractive Index Immersion: "))
+        attrDict['numericalAperture'] = float(input("Input Numerical Aperture Collection: "))
+        attrDict['fluorescenceWavelength'] = int(input("Input Fluorescence Wavelength: "))
+        attrDict['umTileOverlapX'] = float(input("Input Tile Overlap X µm: "))
+        attrDict['umTileOverlapY'] = float(input("Input Tile Overlap Y µm: "))
 
         stitchImportSuccess, stitchScanFinalPath = self.import_stitched_LightsheetScan(attrDict['stitchedPath'], attrDict['relativePath'])
         tilesImportSuccess, tilesFinalPath = self.import_tiles_LightsheetScan(attrDict['tilesPath'], attrDict['relativePath'])
