@@ -4,17 +4,16 @@ from pickle import UnpicklingError, PicklingError
 
 class Package(object):
 
-    name = None
-    uniqueID = None
-    relativePath = None
-    creationDate = None
-    sizeGB = None
-    attrDict = None
+    attrDict = {
+        'name': None,
+        'uniqueID': None,
+        'relativePath': None,
+        'creationDate': None,
+        'sizeGB': None
+    }
 
     def __init__(self, attrDict):
 
-        self.attrDict = attrDict
-        # These MUST be valid values or object creation should fail
         self.set_name(attrDict['name'])
         self.set_uniqueID(attrDict['uniqueID'])
         self.set_relativePath(attrDict['relativePath'])
@@ -34,7 +33,6 @@ class Package(object):
             'name': None,
             'uniqueID': None,
             'relativePath': None,
-            'fullPath': None,
             'creationDate': None,
             'sizeGB': None
         }
@@ -70,38 +68,42 @@ class Package(object):
 
     # Setters
     def set_name(self, name):
-        self.name = name
+        self.attrDict['name'] = name
 
     def set_uniqueID(self, uniqueID):
-        self.uniqueID = uniqueID
+        self.attrDict['uniqueID'] = uniqueID
 
     def set_relativePath(self, relativePath):
-        self.relativePath = relativePath
+        self.attrDict['relativePath'] = relativePath
 
     def set_creationDate(self, creationDate):
-        self.creationDate = creationDate
+        self.attrDict['creationDate'] = creationDate
 
     def set_sizeGB(self, sizeGB):
-        self.sizeGB = sizeGB
+        self.attrDict['sizeGB'] = sizeGB
 
-    # Getters
+        # Getters
     def get_name(self):
-        return self.name
+        return self.self.attrDict['name']
 
     def get_uniqueID(self):
-        return self.uniqueID
+        return self.attrDict['uniqueID']
 
     def get_relativePath(self):
-        return self.relativePath
+        return self.attrDict['relativePath']
 
     def get_creationDate(self):
-        return self.creationDate
+        return self.attrDict['creationDate']
 
     def get_sizeGB(self):
-        return self.sizeGB
+        return self.attrDict['sizeGB']
 
 
 class DataPackage(Package):
+
+    attrDict = {
+
+    }
 
     def __init__(self, attrDict):
         super().__init__(attrDict)
@@ -122,6 +124,10 @@ class DataPackage(Package):
 
 
 class AnalysisPackage(Package):
+
+    attrDict = {
+
+    }
 
     def __init__(self, attrDict):
         super().__init__(attrDict)

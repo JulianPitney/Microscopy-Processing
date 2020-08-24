@@ -7,10 +7,9 @@ from LightsheetPackages import LightsheetScan, LengthDensityMap3DAnalysis
 def main():
 
 # Create new package
-"""
     packageFactory = PackageFactory()
     scan = packageFactory.create_package(LightsheetScan)
-"""
+
 
 # Load existing package
 """
