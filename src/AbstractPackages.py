@@ -44,7 +44,9 @@ class Package(object):
         unpickledObj = None
 
         try:
-            unpickledObj = pickle.load(open(path, 'rb'))
+            inputFile = open(path, 'rb')
+            unpickledObj = pickle.load(inputFile)
+            inputFile.close()
         except UnpicklingError:
             Package.print_error_message("UnpicklingError. Failed to load Package object from pickle file.")
         else:
@@ -57,7 +59,9 @@ class Package(object):
         saveSuccess = True
 
         try:
-            pickle.dump(self, open(path, 'wb'))
+            outfile = open(path, 'wb')
+            pickle.dump(self, outfile)
+            outfile.close()
         except PicklingError:
             Package.print_error_message("PicklingError. Failed to save Package object to disk.")
             saveSuccess = False

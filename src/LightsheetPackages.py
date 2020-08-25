@@ -1,7 +1,7 @@
-from AbstractPackages import Package, DataPackage, AnalysisPackage
+from AbstractPackages import DataPackage, AnalysisPackage
 from PackageExceptions import PackageError
-from pathlib import Path
 from zStackUtils import load_stack, max_project, save_and_reload_maxproj, save_png
+from pathlib import Path
 
 class LightsheetScan(DataPackage):
 
@@ -137,7 +137,6 @@ class LightsheetScan(DataPackage):
 
         for attr in resourcesToCheck:
             resourcePath = self.attrDict[attr]
-            print(resourcePath)
             # If the resource isn't initialized to anything we don't have to worry about it.
             # If it is initialized, check that everything is cool.
             if resourcePath == None:
@@ -320,6 +319,30 @@ class LightsheetScan(DataPackage):
 
     def get_umTileOverlapY(self):
         return self.attrDict['umTileOverlapY']
+
+
+class LightsheetBrainVasculatureScan(LightsheetScan):
+
+    attrDict = {
+
+    }
+
+    def __init__(self, attrDict):
+        super().__init__(attrDict)
+
+    def __del__(self):
+        super().__del__()
+
+    @staticmethod
+    def get_empty_attr_dict():
+        concatenatedDict = {}
+        parentDict = LightsheetScan.get_empty_attr_dict()
+        childDict = {
+
+        }
+        concatenatedDict.update(parentDict)
+        concatenatedDict.update(childDict)
+        return concatenatedDict
 
 
 class LengthDensityMap3DAnalysis(AnalysisPackage):

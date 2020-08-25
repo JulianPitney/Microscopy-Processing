@@ -1,14 +1,14 @@
 from AbstractPackages import Package
 from PackageExceptions import PackageError
 from PackageFactory import PackageFactory
-from LightsheetPackages import LightsheetScan, LengthDensityMap3DAnalysis
+from LightsheetPackages import LightsheetBrainVasculatureScan
 
 
 def main():
 
 # Create new package
     packageFactory = PackageFactory()
-    scan = packageFactory.create_package(LightsheetScan)
+    scan = packageFactory.create_package(LightsheetBrainVasculatureScan)
 
 
 # Load existing package

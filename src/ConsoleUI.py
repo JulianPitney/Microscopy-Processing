@@ -1,6 +1,6 @@
+import AbstractPackages as AP
+import LightsheetPackages as LP
 from PackageFactory import PackageFactory
-from LightsheetPackages import Package, LightsheetScan
-from PackageExceptions import *
 from consolemenu import ConsoleMenu, SelectionMenu
 from consolemenu.items import SubmenuItem, FunctionItem
 from pathlib import Path
@@ -11,8 +11,9 @@ def load_packages_directory():
     packages = []
     p = Path('../packages/')
     for child in p.iterdir():
-        scanPath = Path(child.joinpath(child.stem + ".p"))
-        scan = Package.load_package(scanPath)
+        scanPath = Path(child.joinpath(child.stem + ".p")).as_posix()
+        print(scanPath)
+        scan = AP.Package.load_package(scanPath)
         packagePaths.append(scanPath)
         packages.append(scan)
     return packagePaths, packages
@@ -32,16 +33,16 @@ def download_scan(scanName):
 
     print("Downloading " + str(scanName) + " from the cloud!")
 
-def select_scan(scanStringList):
+def select_scan():
 
-    global lightsheetPackages
+    global lightsheetPackages, lightsheetScanPaths
 
-    scanIndex = SelectionMenu.get_selection(scanStringList)
+    scanIndex = SelectionMenu.get_selection(lightsheetScanPaths)
 
-    if scanIndex >= len(scanStringList):
+    if scanIndex >= len(lightsheetScanPaths):
         return None
 
-    scanName = scanStringList[scanIndex]
+    scanName = lightsheetScanPaths[scanIndex]
     scan = lightsheetPackages[scanIndex]
     # TODO: Open the scan and spawn the GUI showing the metadata and thumbnail
 
@@ -57,19 +58,18 @@ def select_scan(scanStringList):
     scanMenu.show()
     # TODO: Tear down the scan GUI and anything else that needs to be done to close it.
 
-def import_scan():
+def create_scan():
     global lightsheetScanPaths, lightsheetPackages
 
     packageFactory = PackageFactory()
-    scan = packageFactory.create_package(LightsheetScan)
+    scan = packageFactory.create_package(LP.LightsheetBrainVasculatureScan)
     if scan == None:
         print("Failed to create LightsheetScan.")
     else:
         print("Successfully created LightsheetScan object in " + scan.get_relativePath())
         packagePath = scan.attrDict['relativePath'] + scan.attrDict['uniqueID'] + ".p"
-        package = Package.load_package(packagePath)
         lightsheetScanPaths.append(packagePath)
-        lightsheetPackages.append(package)
+        lightsheetPackages.append(scan)
 
     sleep(3)
 
@@ -82,7 +82,7 @@ lightsheetScanPaths, lightsheetPackages = load_packages_directory()
 
 mainMenuTitle = "Data Manager"
 mainMenuSubTitle = "v0.1"
-mainMenuPrologue = "This program is designed to help our lab manage data."
+mainMenuPrologue = "This program is designed to ensure to organization, integrity and security of arbitrary sets of data. "
 mainMenuEpilogue = ""
 
 lightsheetMenuTitle = "Lightsheet Data"
@@ -101,8 +101,8 @@ behaviorItem = SubmenuItem("Behavior Data", behaviorMenu, mainMenu)
 cellCultureMenu = ConsoleMenu("Cell Culture Data")
 cellCultureItem = SubmenuItem("Cell Culture Data", cellCultureMenu, mainMenu)
 
-openScanMenuItem = FunctionItem("Open Scan", select_scan, [lightsheetScanPaths], menu=lightsheetMenu)
-importScanMenuItem = FunctionItem("Import Scan", import_scan, [])
+openScanMenuItem = FunctionItem("Open Scan", select_scan, [], menu=lightsheetMenu)
+importScanMenuItem = FunctionItem("Create Scan", create_scan, [])
 deleteScanMenuItem = FunctionItem("Delete Scan", delete_scan, [])
 
 mainMenu.append_item(lightsheetItem)

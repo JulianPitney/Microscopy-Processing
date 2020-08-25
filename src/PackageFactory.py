@@ -1,18 +1,14 @@
-from uuid import uuid4
 from AbstractPackages import Package, DataPackage, AnalysisPackage
-from LightsheetPackages import LightsheetScan, LengthDensityMap3DAnalysis, StrokeVolumeAnalysis, VesselDiameterAnalysis
+import LightsheetPackages as LP
 import config
 from pathlib import Path
+from uuid import uuid4
 
 class PackageFactory(object):
 
 #---------------------------------------------------------------------------------------------#
 # Functions that are general to all Package types.                                            #
 #---------------------------------------------------------------------------------------------#
-    @staticmethod
-    def print_error_message(msg):
-        print("PackageFactory Error: " + msg)
-
     # Takes a libpath Path object and attempts to create the directory.
     # Returns false on failure and true on success.
     def create_directory(self, pathObj):
@@ -34,7 +30,7 @@ class PackageFactory(object):
 
         rootDir = config.PACKAGE_DIR
         uniqueID = self.gen_unique_Package_ID()
-        relativePath = rootDir + uniqueID + "//"
+        relativePath = rootDir + uniqueID + "/"
 
         dirCreationSuccess = self.create_directory(relativePath)
         if dirCreationSuccess:
@@ -68,34 +64,36 @@ class PackageFactory(object):
 
     def get_DataPackage_creator(self, packageType):
 
-        if packageType == LightsheetScan:
-            return self.create_LightsheetScan
+        if issubclass(packageType, LP.LightsheetScan):
+            return self.get_LightsheetScan_creator(packageType)
         else:
             return None
 
     def get_AnalysisPackage_creator(self, packageType):
 
-        if packageType == LengthDensityMap3DAnalysis:
+        if packageType == LP.LengthDensityMap3DAnalysis:
             return self.create_LengthDensityMap3DAnalysis
-        elif packageType == StrokeVolumeAnalysis:
+        elif packageType == LP.StrokeVolumeAnalysis:
             return self.create_StrokeVolumeAnalysis
-        elif packageType == VesselDiameterAnalysis:
+        elif packageType == LP.VesselDiameterAnalysis:
             return self.create_VesselDiameterAnalysis
         else:
             return None
 
-
+    def get_LightsheetScan_creator(self, packageType):
+        if packageType == LP.LightsheetBrainVasculatureScan:
+            return self.create_LightsheetBrainVasculatureScan
 
 
 #---------------------------------------------------------------------------------------------#
-# LightsheetScan creation is done here.                                                    #
+# LightsheetBrainVasculatureScan creation is done here.                                                    #
 #---------------------------------------------------------------------------------------------#
 
     # This function attempts to create a LightsheetScan object. It will attempt to set and validate
     # all the required parameters for creating a LightsheetScan object. If it fails to set and validate
     # any of the required parameters, it will return None. If it succeeds, it will return a valid
     # LightsheetScan object.
-    def create_LightsheetScan(self, packageType):
+    def create_LightsheetBrainVasculatureScan(self, packageType):
 
         # TODO: Creator methods should ensure all the required attributes are set
         #  and valid before passing the attrDict to the class's constructor.
@@ -112,10 +110,10 @@ class PackageFactory(object):
         # Default success is true, then we go through a list of checks that
         # will flip this to false if any of them fail.
         objectCreationSuccess = True
-        lightsheetScan = None
+        scan = None
         # Get a dictionary that contains all the attributes our object has. All attributes
         # default to None.
-        attrDict = LightsheetScan.get_empty_attr_dict()
+        attrDict = LP.LightsheetBrainVasculatureScan.get_empty_attr_dict()
 
         # Attempt to set and validate all required attributes.
         # TODO: Setting everything manually until this gets hooked up to some front end that can set them automatically
@@ -159,11 +157,11 @@ class PackageFactory(object):
         if objectCreationSuccess:
             attrDict['stitchedPath'] = stitchScanFinalPath
             attrDict['tilesPath'] = tilesFinalPath
-            lightsheetScan = LightsheetScan(attrDict)
+            scan = LP.LightsheetBrainVasculatureScan(attrDict)
             lightsheetScanObjDumpPath = Path(attrDict['relativePath']).joinpath(Path(attrDict['uniqueID'] + '.p'))
-            objectCreationSuccess = lightsheetScan.save_package(lightsheetScanObjDumpPath)
+            objectCreationSuccess = scan.save_package(lightsheetScanObjDumpPath)
 
-        return lightsheetScan
+        return scan
 
     def import_stitched_LightsheetScan(self, inputStitchedScanPath, objectRootDir):
 
@@ -234,24 +232,24 @@ class PackageFactory(object):
 #---------------------------------------------------------------------------------------------#
     def create_LengthDensityMap3DAnalysis(self, packageType):
         print("Created LengthDensityMap3DAnalysis")
-        attrDict = LengthDensityMap3DAnalysis.get_empty_attr_dict()
-        return LengthDensityMap3DAnalysis(attrDict)
+        attrDict = LP.LengthDensityMap3DAnalysis.get_empty_attr_dict()
+        return LP.LengthDensityMap3DAnalysis(attrDict)
 
 #---------------------------------------------------------------------------------------------#
 # StrokeVolumeAnalysis creation is handled here.                                              #
 #---------------------------------------------------------------------------------------------#
     def create_StrokeVolumeAnalysis(self, packageType):
         print("Created StrokeVolumeAnalysis")
-        attrDict = StrokeVolumeAnalysis.get_empty_attr_dict()
-        return StrokeVolumeAnalysis(attrDict)
+        attrDict = LP.StrokeVolumeAnalysis.get_empty_attr_dict()
+        return LP.StrokeVolumeAnalysis(attrDict)
 
 #---------------------------------------------------------------------------------------------#
 # VesselDiameterAnalysis creation is handled here.                                            #
 #---------------------------------------------------------------------------------------------#
     def create_VesselDiameterAnalysis(self, packageType):
         print("Created VesselDiameterAnalysis")
-        attrDict = VesselDiameterAnalysis.get_empty_attr_dict()
-        return VesselDiameterAnalysis(attrDict)
+        attrDict = LP.VesselDiameterAnalysis.get_empty_attr_dict()
+        return LP.VesselDiameterAnalysis(attrDict)
 
 
 
