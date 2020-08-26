@@ -5,38 +5,36 @@ from pathlib import Path
 
 class LightsheetScan(DataPackage):
 
-    attrDict = {
-        'stitchedPath': None,
-        'tilesPath': None,
-        'maxProjPath': None,
-        'analysisPackagesPath': None,
-        'numTiles': None,
-        'tileSizeZ': None,
-        'tileSizeY': None,
-        'tileSizeX': None,
-        'bitDepth': None,
-        'authorName': None,
-        'specimenName': None,
-        'specimenPrepProtocol': None,
-        'notes': None,
-        'umStepSizeZ': None,
-        'umPerStep': None,
-        'scanStepSpeed': None,
-        'sleepDurationAfterMovement': None,
-        'timelapseN': None,
-        'timelapseIntervalS': None,
-        'tileScanDimensions': None,
-        'imagingObjectiveMagnification': None,
-        'umPerPixel': None,
-        'refractiveIndexImmersion': None,
-        'numericalAperture': None,
-        'fluorescenceWavelength': None,
-        'umTileOverlapX': None,
-        'umTileOverlapY': None
-    }
+
+    stitchedPath = None
+    tilesPath = None
+    maxProjPath = None
+    analysisPackagesPath = None
+    numTiles = None
+    tileSizeZ = None
+    tileSizeY = None
+    tileSizeX = None
+    bitDepth = None
+    authorName = None
+    specimenName = None
+    specimenPrepProtocol = None
+    notes = None
+    umStepSizeZ = None
+    umPerStep = None
+    scanStepSpeed = None
+    sleepDurationAfterMovement = None
+    timelapseN = None
+    timelapseIntervalS = None
+    tileScanDimensions = None
+    imagingObjectiveMagnification = None
+    umPerPixel = None
+    refractiveIndexImmersion = None
+    numericalAperture = None
+    fluorescenceWavelength = None
+    umTileOverlapX = None
+    umTileOverlapY = None
 
     def __init__(self, attrDict):
-
         super().__init__(attrDict)
         self.set_stitchedPath(attrDict['stitchedPath'])
         self.set_tilesPath(attrDict['tilesPath'])
@@ -66,12 +64,12 @@ class LightsheetScan(DataPackage):
         self.set_umTileOverlapX(attrDict['umTileOverlapX'])
         self.set_umTileOverlapY(attrDict['umTileOverlapY'])
 
-
         # Any time we initialize a Package we should check
         # that all attributes are initialized to a valid state.
         try:
-            self.resource_wellness_check()
-        except PackageError as e: print(e)
+            self.resource_handle_integrity_check()
+        except PackageError:
+            raise PackageError
 
         # If all the attributes seem okay, generate a thumbnail for the package.
         self.gen_maxproj_thumbnail()
@@ -124,25 +122,21 @@ class LightsheetScan(DataPackage):
     # for storing data.
     #
     # Returns True if object is valid
-    def resource_wellness_check(self):
+    def resource_handle_integrity_check(self):
 
-        resourcesToCheck = [
-            'relativePath',
-            'stitchedPath',
-            'maxProjPath',
-            'tilesPath',
-            'maxProjPath',
-            'analysisPackagesPath'
-        ]
+        resources = []
+        resources.append(self.get_stitchedPath())
+        resources.append(self.get_tilesPath())
+        resources.append(self.get_analysisPackagesPath())
+        resources.append(self.get_maxProjPath())
 
-        for attr in resourcesToCheck:
-            resourcePath = self.attrDict[attr]
+        for rsrc in resources:
             # If the resource isn't initialized to anything we don't have to worry about it.
             # If it is initialized, check that everything is cool.
-            if resourcePath == None:
+            if rsrc == None:
                 continue
-            elif not Path(resourcePath).exists():
-                raise PackageError("A lightsheetScan object has failed to find it's [" + attr + "] resource at: " + str(resourcePath))
+            elif not Path(rsrc).exists():
+                raise PackageError("A lightsheetScan object has failed to find any file at: " + str(rsrc))
 
     def gen_maxproj_thumbnail(self):
 
@@ -158,174 +152,170 @@ class LightsheetScan(DataPackage):
 
     # Setters
     def set_stitchedPath(self, stitchedPath):
-        self.attrDict['stitchedPath'] = stitchedPath
+        self.stitchedPath = stitchedPath
 
     def set_tilesPath(self, tilesPath):
-        self.attrDict['tilesPath'] = tilesPath
+        self.tilesPath = tilesPath
 
     def set_maxProjPath(self, maxProjPath):
-        self.attrDict['maxProjPath'] = maxProjPath
+        self.maxProjPath = maxProjPath
 
     def set_analysisPackagesPath(self, analysisPackagesPath):
-        self.attrDict['analysisPackagesPath'] = analysisPackagesPath
+        self.analysisPackagesPath = analysisPackagesPath
 
     def set_numTiles(self, numTiles):
-        self.attrDict['numTiles'] = numTiles
+        self.numTiles = numTiles
 
     def set_tileSizeZ(self, tileSizeZ):
-        self.attrDict['tileSizeZ'] = tileSizeZ
+        self.tileSizeZ = tileSizeZ
 
     def set_tileSizeY(self, tileSizeY):
-        self.attrDict['tileSizeY'] = tileSizeY
+        self.tileSizeY = tileSizeY
 
     def set_tileSizeX(self, tileSizeX):
-        self.attrDict['tileSizeX'] = tileSizeX
+        self.tileSizeX = tileSizeX
 
     def set_bitDepth(self, bitDepth):
-        self.attrDict['bitDepth'] = bitDepth
+        self.bitDepth = bitDepth
 
     def set_authorName(self, authorName):
-        self.attrDict['authorName'] = authorName
+        self.authorName = authorName
 
     def set_specimenName(self, specimenName):
-        self.attrDict['specimenName'] = specimenName
+        self.specimenName = specimenName
 
     def set_specimenPrepProtocol(self, specimenPrepProtocol):
-        self.attrDict['specimenPrepProtocol'] = specimenPrepProtocol
+        self.specimenPrepProtocol = specimenPrepProtocol
 
     def set_notes(self, notes):
-        self.attrDict['notes'] = notes
+        self.notes = notes
 
     def set_umStepSizeZ(self, umStepSizeZ):
-        self.attrDict['umStepSizeZ'] = umStepSizeZ
+        self.umPerStepZ = umStepSizeZ
 
     def set_umPerStep(self, umPerStep):
-        self.attrDict['umPerStep'] = umPerStep
+        self.umPerStep = umPerStep
 
     def set_scanStepSpeed(self, scanStepSpeed):
-        self.attrDict['scanStepSpeed'] = scanStepSpeed
+        self.scanStepSpeed = scanStepSpeed
 
     def set_sleepDurationAfterMovement(self, sleepDurationAfterMovement):
-        self.attrDict['sleepDurationAfterMovement'] = sleepDurationAfterMovement
+        self.sleepDurationAfterMovement = sleepDurationAfterMovement
 
     def set_timeLapseN(self, timeLapseN):
-        self.attrDict['timeLapseN'] = timeLapseN
+        self.timelapseN = timeLapseN
 
     def set_timelapseIntervalS(self, timelapseIntervalS):
-        self.attrDict['timelapseIntervalS'] = timelapseIntervalS
+        self.timelapseIntervalS = timelapseIntervalS
 
     def set_tileScanDimensions(self, tileScanDimensions):
-        self.attrDict['tileScanDimensions'] = tileScanDimensions
+        self.tileScanDimensions = tileScanDimensions
 
     def set_imagingObjectiveMagnification(self, imagingObjectiveMagnification):
-        self.attrDict['imagingObjectiveMagnification'] = imagingObjectiveMagnification
+        self.imagingObjectiveMagnification = imagingObjectiveMagnification
 
     def set_umPerPixel(self, umPerpixel):
-        self.attrDict['umPerPixel'] = umPerpixel
+        self.umPerPixel = umPerpixel
 
     def set_refrativeIndexImmersion(self, refractiveIndexImmersion):
-        self.attrDict['refractiveIndexImmersion'] = refractiveIndexImmersion
+        self.refractiveIndexImmersion = refractiveIndexImmersion
 
     def set_numericalAperture(self, numericalAperture):
-        self.attrDict['numericalAperture'] = numericalAperture
+        self.numericalAperture = numericalAperture
 
     def set_fluorescenceWavelength(self, fluorescenceWavelength):
-        self.attrDict['fluorescenceWavelength'] = fluorescenceWavelength
+        self.fluorescenceWavelength = fluorescenceWavelength
 
     def set_umTileOverlapX(self, umTileOverlapX):
-        self.attrDict['umTileOverlapX'] = umTileOverlapX
+        self.umTileOverlapX = umTileOverlapX
 
     def set_umTileOverlapY(self, umTileOverlapY):
-        self.attrDict['umTileOverlapY'] = umTileOverlapY
+        self.umTileOverlapY = umTileOverlapY
 
         # Getters
     def get_stitchedPath(self):
-        return self.attrDict['stitchedPath']
+        return self.stitchedPath
 
     def get_tilesPath(self):
-        return self.attrDict['tilesPath']
+        return self.tilesPath
 
     def get_maxProjPath(self):
-        return self.attrDict['maxProjPath']
+        return self.maxProjPath
 
     def get_analysisPackagesPath(self):
-        return self.attrDict['analysisPackagesPath']
+        return self.analysisPackagesPath
 
     def get_numTiles(self):
-        return self.attrDict['numTiles']
+        return self.numTiles
 
     def get_tileSizeZ(self):
-        return self.attrDict['tileSizeZ']
+        return self.tileSizeZ
 
     def get_tileSizeY(self):
-        return self.attrDict['tileSizeY']
+        return self.tileSizeY
 
     def get_tileSizeX(self):
-        return self.attrDict['tileSizeX']
+        return self.tileSizeX
 
     def get_bitDepth(self):
-        return self.attrDict['bitDepth']
+        return self.bitDepth
 
     def get_authorName(self):
-        return self.attrDict['authorName']
+        return self.authorName
 
     def get_specimenName(self):
-        return self.attrDict['specimenName']
+        return self.specimenName
 
     def get_specimenPrepProtocol(self):
-        return self.attrDict['specimenPrepProtocol']
+        return self.specimenPrepProtocol
 
     def get_notes(self):
-        return self.attrDict['notes']
+        return self.notes
 
     def get_umStepSizeZ(self):
-        return self.attrDict['umStepSizeZ']
+        return self.umStepSizeZ
 
     def get_umPerStep(self):
-        return self.attrDict['umPerStep']
+        return self.umPerStep
 
     def get_scanStepSpeed(self):
-        return self.attrDict['scanStepSpeed']
+        return self.scanStepSpeed
 
     def get_sleepDurationAfterMovement(self):
-        return self.attrDict['sleepDurationAfterMovement']
+        return self.sleepDurationAfterMovement
 
     def get_timeLapseN(self):
-        return self.attrDict['timeLapseN']
+        return self.timelapseN
 
     def get_timelapseIntervalS(self):
-        return self.attrDict['timelapseIntervalS']
+        return self.timelapseIntervalS
 
     def get_tileScanDimensions(self):
-        return self.attrDict['tileScanDimensions']
+        return self.tileScanDimensions
 
     def get_imagingObjectiveMagnification(self):
-        return self.attrDict['imagingObjectiveMagnification']
+        return self.imagingObjectiveMagnification
 
     def get_umPerPixel(self):
-        return self.attrDict['umPerPixel']
+        return self.umPerPixel
 
     def get_refractiveIndexImmersion(self):
-        return self.attrDict['refractiveIndexImmersion']
+        return self.refractiveIndexImmersion
 
     def get_numericalApperture(self):
-        return self.attrDict['numericalAperture']
+        return self.numericalAperture
 
     def get_fluorescenceWavelength(self):
-        return self.attrDict['fluorescenceWavelength']
+        return self.fluorescenceWavelength
 
     def get_umTileOverlapX(self):
-        return self.attrDict['umTileOverlapX']
+        return self.umTileOverlapX
 
     def get_umTileOverlapY(self):
-        return self.attrDict['umTileOverlapY']
+        return self.umTileOverlapY
 
 
 class LightsheetBrainVasculatureScan(LightsheetScan):
-
-    attrDict = {
-
-    }
 
     def __init__(self, attrDict):
         super().__init__(attrDict)
@@ -347,10 +337,6 @@ class LightsheetBrainVasculatureScan(LightsheetScan):
 
 class LengthDensityMap3DAnalysis(AnalysisPackage):
 
-    attrDict = {
-
-    }
-
     def __init__(self, attrDict):
         super().__init__(attrDict)
 
@@ -371,10 +357,6 @@ class LengthDensityMap3DAnalysis(AnalysisPackage):
 
 class StrokeVolumeAnalysis(AnalysisPackage):
 
-    attrDict = {
-
-    }
-
     def __init__(self, attrDict):
         super().__init__(attrDict)
 
@@ -394,10 +376,6 @@ class StrokeVolumeAnalysis(AnalysisPackage):
 
 
 class VesselDiameterAnalysis(AnalysisPackage):
-
-    attrDict = {
-
-    }
 
     def __init__(self, attrDict):
         super().__init__(attrDict)

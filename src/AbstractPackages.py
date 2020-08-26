@@ -4,13 +4,11 @@ from pickle import UnpicklingError, PicklingError
 
 class Package(object):
 
-    attrDict = {
-        'name': None,
-        'uniqueID': None,
-        'relativePath': None,
-        'creationDate': None,
-        'sizeGB': None
-    }
+    name = None
+    uniqueID = None
+    relativePath = None
+    creationDate = None
+    sizeGB = None
 
     def __init__(self, attrDict):
 
@@ -22,10 +20,6 @@ class Package(object):
 
     def __del__(self):
         pass
-
-    @staticmethod
-    def print_error_message(msg):
-        print("PackageError: " + msg)
 
     @staticmethod
     def get_empty_attr_dict():
@@ -41,14 +35,12 @@ class Package(object):
     @staticmethod
     def load_package(path):
 
-        unpickledObj = None
-
         try:
             inputFile = open(path, 'rb')
             unpickledObj = pickle.load(inputFile)
             inputFile.close()
         except UnpicklingError:
-            Package.print_error_message("UnpicklingError. Failed to load Package object from pickle file.")
+            raise UnpicklingError("Pickle has failed to load a Package object from disk.")
         else:
             return unpickledObj
 
@@ -63,7 +55,7 @@ class Package(object):
             pickle.dump(self, outfile)
             outfile.close()
         except PicklingError:
-            Package.print_error_message("PicklingError. Failed to save Package object to disk.")
+            raise PicklingError("Pickle has failed to save a Package object to disk.")
             saveSuccess = False
         else:
             return saveSuccess
@@ -72,42 +64,38 @@ class Package(object):
 
     # Setters
     def set_name(self, name):
-        self.attrDict['name'] = name
+        self.name = name
 
     def set_uniqueID(self, uniqueID):
-        self.attrDict['uniqueID'] = uniqueID
+        self.uniqueID = uniqueID
 
     def set_relativePath(self, relativePath):
-        self.attrDict['relativePath'] = relativePath
+        self.relativePath = relativePath
 
     def set_creationDate(self, creationDate):
-        self.attrDict['creationDate'] = creationDate
+        self.creationDate = creationDate
 
     def set_sizeGB(self, sizeGB):
-        self.attrDict['sizeGB'] = sizeGB
+        self.sizeGB = sizeGB
 
         # Getters
     def get_name(self):
-        return self.self.attrDict['name']
+        return self.name
 
     def get_uniqueID(self):
-        return self.attrDict['uniqueID']
+        return self.uniqueID
 
     def get_relativePath(self):
-        return self.attrDict['relativePath']
+        return self.relativePath
 
     def get_creationDate(self):
-        return self.attrDict['creationDate']
+        return self.creationDate
 
     def get_sizeGB(self):
-        return self.attrDict['sizeGB']
+        return self.sizeGB
 
 
 class DataPackage(Package):
-
-    attrDict = {
-
-    }
 
     def __init__(self, attrDict):
         super().__init__(attrDict)
@@ -128,10 +116,6 @@ class DataPackage(Package):
 
 
 class AnalysisPackage(Package):
-
-    attrDict = {
-
-    }
 
     def __init__(self, attrDict):
         super().__init__(attrDict)

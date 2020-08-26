@@ -106,6 +106,10 @@ class PackageFactory(object):
         #  an invalid state and gives a clear separation of
         #  responsibility (Creator ensures everything needed for object creation
         #  is present, while object __init__() handles actual creation).
+        #
+        #   TODO: This function sucks because it depends on details internal to LightsheetBrainVasculatureScan objects.
+        #       This function should be told which values need to be set by the LightsheetBrainVasculatureScan class to
+        #       eliminate the dependency.
 
         # Default success is true, then we go through a list of checks that
         # will flip this to false if any of them fail.

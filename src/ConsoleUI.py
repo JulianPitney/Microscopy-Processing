@@ -48,7 +48,7 @@ def select_scan():
 
     analysisList = ['3D Density Map', 'Stroke Volume', 'Vessel Diameter']
 
-    scanMenu = ConsoleMenu(scan.attrDict['name'], exit_option_text="Close Scan")
+    scanMenu = ConsoleMenu(scan.get_name(), exit_option_text="Close Scan")
     downloadScanItem = FunctionItem("Download Scan", download_scan, [scanName])
     selectAnalysisPackageItem = FunctionItem("View Existing Analyses", select_existing_analysis, [analysisList])
     createNewAnalysisPackageItem = FunctionItem("Perform New Analysis", perform_new_analysis, [analysisList])
@@ -67,7 +67,7 @@ def create_scan():
         print("Failed to create LightsheetScan.")
     else:
         print("Successfully created LightsheetScan object in " + scan.get_relativePath())
-        packagePath = scan.attrDict['relativePath'] + scan.attrDict['uniqueID'] + ".p"
+        packagePath = scan.get_relativePath() + scan.get_uniqueID() + ".p"
         lightsheetScanPaths.append(packagePath)
         lightsheetPackages.append(scan)
 
