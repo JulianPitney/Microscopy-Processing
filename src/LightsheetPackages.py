@@ -3,9 +3,8 @@ from PackageExceptions import PackageError
 from zStackUtils import load_stack, max_project, save_and_reload_maxproj, save_png
 from pathlib import Path
 
+
 class LightsheetScan(DataPackage):
-
-
     stitchedPath = None
     tilesPath = None
     maxProjPath = None
@@ -114,6 +113,43 @@ class LightsheetScan(DataPackage):
         concatenatedDict.update(childDict)
         return concatenatedDict
 
+    def get_filled_attr_dict(self):
+
+        concatenatedDict = {}
+        parentDict = super().get_filled_attr_dict()
+        childDict = {
+            'stitchedPath': self.get_stitchedPath(),
+            'tilesPath': self.get_tilesPath(),
+            'maxProjPath': self.get_maxProjPath(),
+            'analysisPackagesPath': self.get_analysisPackagesPath(),
+            'numTiles': self.get_numTiles(),
+            'tileSizeZ': self.get_tileSizeZ(),
+            'tileSizeY': self.get_tileSizeY(),
+            'tileSizeX': self.get_tileSizeX(),
+            'bitDepth': self.get_bitDepth(),
+            'authorName': self.get_authorName(),
+            'specimenName': self.get_specimenName(),
+            'specimenPrepProtocol': self.get_specimenPrepProtocol(),
+            'notes': self.get_notes(),
+            'umStepSizeZ': self.get_umStepSizeZ(),
+            'umPerStep': self.get_umPerStep(),
+            'scanStepSpeed': self.get_scanStepSpeed(),
+            'sleepDurationAfterMovement': self.get_sleepDurationAfterMovement(),
+            'timelapseN': self.get_timeLapseN(),
+            'timelapseIntervalS': self.get_timelapseIntervalS(),
+            'tileScanDimensions': self.get_tileScanDimensions(),
+            'imagingObjectiveMagnification': self.get_imagingObjectiveMagnification(),
+            'umPerPixel': self.get_umPerPixel(),
+            'refractiveIndexImmersion': self.get_refractiveIndexImmersion(),
+            'numericalAperture': self.get_numericalApperture(),
+            'fluorescenceWavelength': self.get_fluorescenceWavelength(),
+            'umTileOverlapX': self.get_umTileOverlapX(),
+            'umTileOverlapY': self.get_umTileOverlapY()
+        }
+        concatenatedDict.update(parentDict)
+        concatenatedDict.update(childDict)
+        return concatenatedDict
+
     # This should be called immediately after
     # loading an object. This will verify
     # that the resources pointed to by the
@@ -147,8 +183,6 @@ class LightsheetScan(DataPackage):
         maxProjPath = self.get_relativePath() + "thumbnail.png"
         save_png(maxProjPath, maxProj)
         self.set_maxProjPath(maxProjPath)
-
-
 
     # Setters
     def set_stitchedPath(self, stitchedPath):
@@ -233,6 +267,7 @@ class LightsheetScan(DataPackage):
         self.umTileOverlapY = umTileOverlapY
 
         # Getters
+
     def get_stitchedPath(self):
         return self.stitchedPath
 
@@ -334,6 +369,16 @@ class LightsheetBrainVasculatureScan(LightsheetScan):
         concatenatedDict.update(childDict)
         return concatenatedDict
 
+    def get_filled_attr_dict(self):
+
+        concatenatedDict = {}
+        parentDict = super().get_filled_attr_dict()
+        childDict = {
+
+        }
+        concatenatedDict.update(parentDict)
+        concatenatedDict.update(childDict)
+        return concatenatedDict
 
 class LengthDensityMap3DAnalysis(AnalysisPackage):
 
@@ -354,6 +399,17 @@ class LengthDensityMap3DAnalysis(AnalysisPackage):
         concatenatedDict.update(childDict)
         return concatenatedDict
 
+    def get_filled_attr_dict(self):
+
+        concatenatedDict = {}
+        parentDict = super().get_filled_attr_dict()
+        childDict = {
+
+        }
+        concatenatedDict.update(parentDict)
+        concatenatedDict.update(childDict)
+        return concatenatedDict
+
 
 class StrokeVolumeAnalysis(AnalysisPackage):
 
@@ -366,7 +422,18 @@ class StrokeVolumeAnalysis(AnalysisPackage):
     @staticmethod
     def get_empty_attr_dict():
         concatenatedDict = {}
-        parentDict = AnalysisPackage.get_empty_attr_dict()
+        parentDict = super().get_empty_attr_dict()
+        childDict = {
+
+        }
+        concatenatedDict.update(parentDict)
+        concatenatedDict.update(childDict)
+        return concatenatedDict
+
+    def get_filled_attr_dict(self):
+
+        concatenatedDict = {}
+        parentDict = AnalysisPackage.get_filled_attr_dict()
         childDict = {
 
         }
@@ -387,6 +454,17 @@ class VesselDiameterAnalysis(AnalysisPackage):
     def get_empty_attr_dict():
         concatenatedDict = {}
         parentDict = AnalysisPackage.get_empty_attr_dict()
+        childDict = {
+
+        }
+        concatenatedDict.update(parentDict)
+        concatenatedDict.update(childDict)
+        return concatenatedDict
+
+    def get_filled_attr_dict(self):
+
+        concatenatedDict = {}
+        parentDict = super().get_filled_attr_dict()
         childDict = {
 
         }

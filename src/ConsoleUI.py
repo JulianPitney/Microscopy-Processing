@@ -3,6 +3,7 @@ import LightsheetPackages as LP
 from PackageFactory import PackageFactory
 from consolemenu import ConsoleMenu, SelectionMenu
 from consolemenu.items import SubmenuItem, FunctionItem
+import consolemenu
 from pathlib import Path
 from time import sleep
 
@@ -48,6 +49,9 @@ def select_scan():
 
     scanName = displayNames[scanIndex]
     scan = lightsheetPackages[scanIndex]
+    attribs = scan.get_filled_attr_dict()
+
+
     # TODO: Open the scan and spawn the GUI showing the metadata and thumbnail
 
     analysisList = ['3D Density Map', 'Stroke Volume', 'Vessel Diameter']

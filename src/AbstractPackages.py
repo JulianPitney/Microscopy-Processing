@@ -31,6 +31,16 @@ class Package(object):
             'sizeGB': None
         }
 
+    def get_filled_attr_dict(self):
+
+        return {
+            'name': self.get_name(),
+            'uniqueID': self.get_uniqueID(),
+            'relativePath': self.get_relativePath(),
+            'creationDate': self.get_creationDate(),
+            'sizeGB': self.get_sizeGB()
+        }
+
     # I/O
     @staticmethod
     def load_package(path):
@@ -114,6 +124,17 @@ class DataPackage(Package):
         concatenatedDict.update(childDict)
         return concatenatedDict
 
+    def get_filled_attr_dict(self):
+
+        concatenatedDict = {}
+        parentDict = super().get_filled_attr_dict()
+        childDict = {
+
+        }
+        concatenatedDict.update(parentDict)
+        concatenatedDict.update(childDict)
+        return concatenatedDict
+
 
 class AnalysisPackage(Package):
 
@@ -134,6 +155,14 @@ class AnalysisPackage(Package):
         concatenatedDict.update(childDict)
         return concatenatedDict
 
+    def get_filled_attr_dict(self):
 
+        concatenatedDict = {}
+        parentDict = super().get_filled_attr_dict()
+        childDict = {
 
+        }
+        concatenatedDict.update(parentDict)
+        concatenatedDict.update(childDict)
+        return concatenatedDict
 
