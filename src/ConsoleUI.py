@@ -9,6 +9,7 @@ from time import sleep
 def load_packages_directory():
     packagePaths = []
     packages = []
+    displayNames = []
     p = Path('../packages/')
     for child in p.iterdir():
         scanPath = Path(child.joinpath(child.stem + ".p")).as_posix()
@@ -16,7 +17,10 @@ def load_packages_directory():
         scan = AP.Package.load_package(scanPath)
         packagePaths.append(scanPath)
         packages.append(scan)
-    return packagePaths, packages
+        displayName = scan.get_name() + "_" + scan.get_creationDate()
+        displayNames.append(displayName)
+
+    return packagePaths, packages, displayNames
 
 
 def perform_new_analysis(analysisList):
@@ -29,27 +33,27 @@ def select_existing_analysis(analysisList):
     selection = SelectionMenu.get_selection(analysisList)
     print("Getting " + str(selection) + "!")
 
-def download_scan(scanName):
+def download_scan(scanUniqueID):
 
-    print("Downloading " + str(scanName) + " from the cloud!")
+    print("Downloading " + str(scanUniqueID) + " from the cloud!")
 
 def select_scan():
 
-    global lightsheetPackages, lightsheetScanPaths
+    global lightsheetPackages, lightsheetScanPaths, displayNames
 
-    scanIndex = SelectionMenu.get_selection(lightsheetScanPaths)
+    scanIndex = SelectionMenu.get_selection(displayNames)
 
-    if scanIndex >= len(lightsheetScanPaths):
+    if scanIndex >= len(displayNames):
         return None
 
-    scanName = lightsheetScanPaths[scanIndex]
+    scanName = displayNames[scanIndex]
     scan = lightsheetPackages[scanIndex]
     # TODO: Open the scan and spawn the GUI showing the metadata and thumbnail
 
     analysisList = ['3D Density Map', 'Stroke Volume', 'Vessel Diameter']
 
-    scanMenu = ConsoleMenu(scan.get_name(), exit_option_text="Close Scan")
-    downloadScanItem = FunctionItem("Download Scan", download_scan, [scanName])
+    scanMenu = ConsoleMenu(scanName, exit_option_text="Close Scan")
+    downloadScanItem = FunctionItem("Download Scan", download_scan, [scan.get_uniqueID()])
     selectAnalysisPackageItem = FunctionItem("View Existing Analyses", select_existing_analysis, [analysisList])
     createNewAnalysisPackageItem = FunctionItem("Perform New Analysis", perform_new_analysis, [analysisList])
     scanMenu.append_item(downloadScanItem)
@@ -59,7 +63,7 @@ def select_scan():
     # TODO: Tear down the scan GUI and anything else that needs to be done to close it.
 
 def create_scan():
-    global lightsheetScanPaths, lightsheetPackages
+    global lightsheetScanPaths, lightsheetPackages, displayNames
 
     packageFactory = PackageFactory()
     scan = packageFactory.create_package(LP.LightsheetBrainVasculatureScan)
@@ -70,6 +74,8 @@ def create_scan():
         packagePath = scan.get_relativePath() + scan.get_uniqueID() + ".p"
         lightsheetScanPaths.append(packagePath)
         lightsheetPackages.append(scan)
+        displayName = scan.get_name() + "_" + scan.get_creationDate()
+        displayNames.append(displayName)
 
     sleep(3)
 
@@ -78,11 +84,11 @@ def delete_scan():
     print("Deleting a scan!")
 
 
-lightsheetScanPaths, lightsheetPackages = load_packages_directory()
+lightsheetScanPaths, lightsheetPackages, displayNames = load_packages_directory()
 
-mainMenuTitle = "Data Manager"
+mainMenuTitle = "Data Goblins"
 mainMenuSubTitle = "v0.1"
-mainMenuPrologue = "This program is designed to ensure to organization, integrity and security of arbitrary sets of data. "
+mainMenuPrologue = "This program is designed to help the user organize and secure their scientific data."
 mainMenuEpilogue = ""
 
 lightsheetMenuTitle = "Lightsheet Data"
