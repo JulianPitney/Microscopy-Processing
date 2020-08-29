@@ -5,6 +5,7 @@ from pathlib import Path
 
 
 class LightsheetScan(DataPackage):
+
     stitchedPath = None
     tilesPath = None
     maxProjPath = None

@@ -1,5 +1,6 @@
 import pickle
 from pickle import UnpicklingError, PicklingError
+from pathlib import Path
 
 
 class Package(object):
