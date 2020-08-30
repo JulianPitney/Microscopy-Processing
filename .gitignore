@@ -1,9 +1,11 @@
 /packages/
+/downloads/
 *.tif
 *.tiff
 *.png
 *.jpg
 *jpeg
 *.pyc
+*.p
 __pycache__
 .idea
